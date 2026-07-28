@@ -1,0 +1,10 @@
+{
+  "name": "TMC Ganesh Union — Vinayaka Chaturthi Collection",
+  "short_name": "Ganesh Union",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF6E7",
+  "theme_color": "#A13D2B",
+  "orientation": "portrait",
+  "icons": []
+}
