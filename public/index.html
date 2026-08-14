@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#A13D2B" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -20,9 +20,13 @@
     --cream: #FFF6E7;
     --ink: #3B241D;
     --green: #2F5233;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
 
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { -webkit-text-size-adjust: 100%; }
 
   body {
     margin: 0;
@@ -31,20 +35,35 @@
     color: var(--ink);
     display: flex;
     justify-content: center;
+    min-height: 100dvh;
   }
 
+  /* Mobile-first card. Widens gracefully on tablets/desktop instead of
+     staying a fixed 480px strip, while never feeling too stretched. */
   .page {
     width: 100%;
     max-width: 480px;
-    min-height: 100vh;
+    min-height: 100dvh;
     background: #fff;
     box-shadow: 0 0 40px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 640px) {
+    body { padding: 24px 0; }
+    .page {
+      max-width: 460px;
+      min-height: calc(100dvh - 48px);
+      border-radius: 20px;
+      overflow: hidden;
+    }
   }
 
   .hero {
     background: linear-gradient(160deg, var(--sindoor), #7A2A1D);
     color: var(--cream);
-    padding: 36px 24px 28px;
+    padding: calc(clamp(20px, 5vw, 36px) + var(--safe-top)) clamp(16px, 5vw, 28px) clamp(20px, 4vw, 28px);
     text-align: center;
     position: relative;
   }
@@ -56,37 +75,33 @@
     background-position: center;
   }
 
-  .om {
-    font-size: 34px;
-    margin-bottom: 4px;
-  }
+  .om { font-size: clamp(26px, 7vw, 34px); margin-bottom: 4px; }
 
   .org-name {
     font-family: 'Yatra One', serif;
-    font-size: 26px;
+    font-size: clamp(20px, 5.5vw, 26px);
     letter-spacing: 0.5px;
     margin: 4px 0 2px;
+    line-height: 1.2;
   }
 
-  .tagline {
-    font-size: 13px;
-    color: #F4D9BE;
-    letter-spacing: 0.3px;
-  }
+  .tagline { font-size: clamp(11px, 3vw, 13px); color: #F4D9BE; letter-spacing: 0.3px; }
 
   .festival-title {
     font-family: 'Yatra One', serif;
-    font-size: 21px;
+    font-size: clamp(16px, 4.5vw, 21px);
     margin-top: 14px;
     color: var(--gold);
+    line-height: 1.4;
   }
 
   .content {
-    padding: 24px;
+    padding: clamp(16px, 5vw, 24px);
+    flex: 1;
   }
 
   .about {
-    font-size: 14px;
+    font-size: clamp(13px, 3.6vw, 14px);
     line-height: 1.6;
     color: #5A443C;
     background: #FBF1E1;
@@ -106,31 +121,25 @@
     color: var(--ink);
   }
 
-  .field {
-    margin-bottom: 16px;
-  }
+  .field { margin-bottom: 16px; }
 
   input[type="text"],
   input[type="tel"],
   input[type="number"] {
     width: 100%;
-    padding: 12px 14px;
+    padding: 13px 14px;
     border-radius: 10px;
     border: 1.5px solid #E7D8C2;
-    font-size: 15px;
+    font-size: 16px; /* 16px prevents iOS auto-zoom on focus */
     font-family: 'Poppins', sans-serif;
     background: #FFFDF9;
     color: var(--ink);
+    min-height: 48px; /* comfortable tap target */
   }
 
-  input:focus {
-    outline: none;
-    border-color: var(--sindoor);
-  }
+  input:focus { outline: none; border-color: var(--sindoor); }
 
-  .amount-wrap {
-    position: relative;
-  }
+  .amount-wrap { position: relative; }
 
   .amount-wrap span {
     position: absolute;
@@ -141,11 +150,7 @@
     color: var(--sindoor);
   }
 
-  .amount-wrap input {
-    padding-left: 30px;
-    font-weight: 600;
-    font-size: 18px;
-  }
+  .amount-wrap input { padding-left: 30px; font-weight: 600; font-size: 18px; }
 
   .contribute-btn {
     width: 100%;
@@ -159,23 +164,19 @@
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
     margin-top: 6px;
+    min-height: 50px;
     transition: transform 0.15s ease;
   }
 
   .contribute-btn:active { transform: scale(0.98); }
   .contribute-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-  .secure-note {
-    text-align: center;
-    font-size: 12px;
-    color: #8A7A6D;
-    margin-top: 10px;
-  }
+  .secure-note { text-align: center; font-size: 12px; color: #8A7A6D; margin-top: 10px; }
 
   .diya-row {
     text-align: center;
-    font-size: 20px;
-    letter-spacing: 10px;
+    font-size: clamp(16px, 5vw, 20px);
+    letter-spacing: clamp(4px, 2vw, 10px);
     margin: 26px 0 6px;
     opacity: 0.85;
   }
@@ -184,7 +185,7 @@
     text-align: center;
     font-size: 12px;
     color: #9A8A7C;
-    padding: 8px 24px 28px;
+    padding: 8px clamp(16px, 5vw, 24px) calc(28px + var(--safe-bottom));
   }
 
   .error-msg {
@@ -203,6 +204,7 @@
     align-items: center;
     justify-content: center;
     z-index: 50;
+    padding: 16px;
   }
 
   .thankyou-card {
@@ -210,6 +212,7 @@
     border-radius: 20px;
     padding: 32px 26px;
     max-width: 340px;
+    width: 100%;
     text-align: center;
   }
 
@@ -221,21 +224,25 @@
     margin: 8px 0 6px;
   }
 
-  .thankyou-card p {
-    font-size: 14px;
-    color: #5A443C;
-    line-height: 1.5;
-  }
+  .thankyou-card p { font-size: 14px; color: #5A443C; line-height: 1.5; }
 
   .close-btn {
     margin-top: 14px;
     background: var(--green);
     color: #fff;
     border: none;
-    padding: 10px 22px;
+    padding: 12px 22px;
     border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
+    min-height: 44px;
+  }
+
+  /* Landscape phones: hero shrinks so the form isn't pushed below the fold */
+  @media (max-height: 480px) and (orientation: landscape) {
+    .hero { padding-top: calc(14px + var(--safe-top)); padding-bottom: 14px; }
+    .festival-title { margin-top: 8px; }
+    .diya-row { margin: 14px 0 4px; }
   }
 </style>
 </head>
@@ -267,14 +274,14 @@
 
       <div class="field">
         <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required />
+        <input type="tel" id="phone" inputmode="numeric" placeholder="10-digit mobile number" pattern="[0-9]{10}" required />
       </div>
 
       <div class="field">
         <label for="amount">Contribution Amount</label>
         <div class="amount-wrap">
           <span>₹</span>
-          <input type="number" id="amount" placeholder="Enter any amount" min="10" required />
+          <input type="number" id="amount" inputmode="numeric" placeholder="Enter any amount" min="10" required />
         </div>
       </div>
 
@@ -302,8 +309,8 @@
 
 <script>
   // ====== CONFIGURE BEFORE PUBLISHING ======
-  const API_BASE_URL = ""; // same origin as this page now — no separate backend URL needed
-  const RAZORPAY_KEY_ID ="rzp_test_TIoAqX3hWOj4xf"; // your Razorpay publishable Key ID (safe to expose)
+  const API_BASE_URL = ""; // same origin as this page — no separate backend URL needed
+  const RAZORPAY_KEY_ID = "rzp_test_TIoAqX3hWOj4xf"; // your Razorpay publishable Key ID (safe to expose)
   // ==========================================
 
   const form = document.getElementById("donationForm");
@@ -328,7 +335,6 @@
     payBtn.textContent = "Preparing payment...";
 
     try {
-      // 1. Ask our backend to create a Razorpay order for this amount
       const res = await fetch(`${API_BASE_URL}/donations`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -337,7 +343,6 @@
       if (!res.ok) throw new Error("Could not start payment. Please try again.");
       const data = await res.json();
 
-      // 2. Open Razorpay's checkout with that order
       const options = {
         key: RAZORPAY_KEY_ID,
         amount: data.amount * 100,
@@ -348,8 +353,6 @@
         prefill: { name, contact: phone },
         theme: { color: "#A13D2B" },
         handler: function (response) {
-          // Payment succeeded on the client side. The backend's webhook is the
-          // real source of truth — it verifies the signature and marks this paid.
           document.getElementById("thankyouMsg").textContent =
             `Thank you, ${name}! Your contribution of ₹${amount} has been received. Ganapati Bappa Morya!`;
           document.getElementById("thankyouOverlay").style.display = "flex";
