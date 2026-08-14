@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="Ganesh Union" />
 <link rel="manifest" href="/manifest.json" />
-<title>TMC Ganesh Union — Vinayaka Chaturthi Collection</title>
+<title>TMC Ganesh Union — Vinayaka Chaturthi Celebrations (2026)</title>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Yatra+One&family=Poppins:wght@400;500;600;700&display=swap');
@@ -25,8 +25,7 @@
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
   body {
     margin: 0;
@@ -38,8 +37,6 @@
     min-height: 100dvh;
   }
 
-  /* Mobile-first card. Widens gracefully on tablets/desktop instead of
-     staying a fixed 480px strip, while never feeling too stretched. */
   .page {
     width: 100%;
     max-width: 480px;
@@ -60,10 +57,68 @@
     }
   }
 
+  /* ---------- Top navigation ---------- */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: #fff;
+    border-bottom: 1px solid #F0DFC4;
+    padding-top: var(--safe-top);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px clamp(16px, 5vw, 24px);
+  }
+
+  .nav-logo {
+    font-family: 'Yatra One', serif;
+    font-size: 16px;
+    color: var(--sindoor);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hamburger {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: var(--sindoor);
+    cursor: pointer;
+    padding: 6px 8px;
+    line-height: 1;
+  }
+
+  .nav-links {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+    background: #FBF1E1;
+  }
+
+  .nav-links.open { max-height: 220px; }
+
+  .nav-links a {
+    display: block;
+    padding: 13px clamp(16px, 5vw, 24px);
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    border-bottom: 1px solid #F0DFC4;
+  }
+
+  .nav-links a:active { background: #F4E3C9; }
+
+  /* ---------- Hero ---------- */
   .hero {
     background: linear-gradient(160deg, var(--sindoor), #7A2A1D);
     color: var(--cream);
-    padding: calc(clamp(20px, 5vw, 36px) + var(--safe-top)) clamp(16px, 5vw, 28px) clamp(20px, 4vw, 28px);
+    padding: clamp(20px, 5vw, 32px) clamp(16px, 5vw, 28px) clamp(20px, 4vw, 26px);
     text-align: center;
     position: relative;
   }
@@ -95,9 +150,76 @@
     line-height: 1.4;
   }
 
-  .content {
-    padding: clamp(16px, 5vw, 24px);
-    flex: 1;
+  /* ---------- Slides / carousel ---------- */
+  .slides {
+    position: relative;
+    height: clamp(150px, 42vw, 190px);
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px 28px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    color: #fff;
+  }
+
+  .slide.active { opacity: 1; }
+
+  .slide .slide-icon { font-size: clamp(30px, 8vw, 40px); margin-bottom: 8px; }
+  .slide .slide-title {
+    font-family: 'Yatra One', serif;
+    font-size: clamp(16px, 4.5vw, 20px);
+    margin-bottom: 4px;
+  }
+  .slide .slide-sub { font-size: clamp(12px, 3.2vw, 13px); opacity: 0.95; line-height: 1.4; }
+
+  .slide-1 { background: linear-gradient(135deg, #A13D2B, #C9683F); }
+  .slide-2 { background: linear-gradient(135deg, #2F5233, #4A7A52); }
+  .slide-3 { background: linear-gradient(135deg, #B4661F, #E7A93D); }
+  .slide-4 { background: linear-gradient(135deg, #7A2A1D, #A13D2B); }
+
+  .slide-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    z-index: 2;
+  }
+
+  .slide-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    border: none;
+    padding: 0;
+  }
+
+  .slide-dot.active { background: #fff; width: 16px; border-radius: 4px; }
+
+  /* ---------- Sections ---------- */
+  .content { padding: clamp(16px, 5vw, 24px); flex: 1; }
+
+  .section { scroll-margin-top: 60px; }
+  .section + .section { margin-top: 30px; padding-top: 22px; border-top: 1px dashed #EEDFC4; }
+
+  .section-title {
+    font-family: 'Yatra One', serif;
+    font-size: 18px;
+    color: var(--sindoor);
+    margin: 0 0 12px;
   }
 
   .about {
@@ -113,14 +235,7 @@
 
   .about b { color: var(--sindoor); }
 
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: var(--ink);
-  }
-
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--ink); }
   .field { margin-bottom: 16px; }
 
   input[type="text"],
@@ -130,117 +245,92 @@
     padding: 13px 14px;
     border-radius: 10px;
     border: 1.5px solid #E7D8C2;
-    font-size: 16px; /* 16px prevents iOS auto-zoom on focus */
+    font-size: 16px;
     font-family: 'Poppins', sans-serif;
     background: #FFFDF9;
     color: var(--ink);
-    min-height: 48px; /* comfortable tap target */
+    min-height: 48px;
   }
 
   input:focus { outline: none; border-color: var(--sindoor); }
 
   .amount-wrap { position: relative; }
-
   .amount-wrap span {
-    position: absolute;
-    left: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-weight: 600;
-    color: var(--sindoor);
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    font-weight: 600; color: var(--sindoor);
   }
-
   .amount-wrap input { padding-left: 30px; font-weight: 600; font-size: 18px; }
 
   .contribute-btn {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 12px;
-    background: var(--gold);
-    color: var(--ink);
-    font-size: 16px;
-    font-weight: 700;
-    font-family: 'Poppins', sans-serif;
-    cursor: pointer;
-    margin-top: 6px;
-    min-height: 50px;
-    transition: transform 0.15s ease;
+    width: 100%; padding: 15px; border: none; border-radius: 12px;
+    background: var(--gold); color: var(--ink); font-size: 16px; font-weight: 700;
+    font-family: 'Poppins', sans-serif; cursor: pointer; margin-top: 6px;
+    min-height: 50px; transition: transform 0.15s ease;
   }
-
   .contribute-btn:active { transform: scale(0.98); }
   .contribute-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
   .secure-note { text-align: center; font-size: 12px; color: #8A7A6D; margin-top: 10px; }
 
   .diya-row {
-    text-align: center;
-    font-size: clamp(16px, 5vw, 20px);
-    letter-spacing: clamp(4px, 2vw, 10px);
-    margin: 26px 0 6px;
-    opacity: 0.85;
+    text-align: center; font-size: clamp(16px, 5vw, 20px);
+    letter-spacing: clamp(4px, 2vw, 10px); margin: 26px 0 6px; opacity: 0.85;
   }
 
+  .error-msg { color: var(--sindoor); font-size: 13px; margin-top: 8px; text-align: center; display: none; }
+
+  /* Events list */
+  .event-item {
+    display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F2EADA;
+  }
+  .event-item:last-child { border-bottom: none; }
+  .event-date {
+    background: #FBF1E1; color: var(--sindoor); font-weight: 700; font-size: 12px;
+    border-radius: 8px; padding: 6px 8px; text-align: center; min-width: 52px; height: fit-content;
+  }
+  .event-info b { display: block; font-size: 14px; color: var(--ink); }
+  .event-info span { font-size: 12px; color: #8A7A6D; }
+
+  /* Donors summary */
+  .donor-stats { display: flex; gap: 12px; margin-bottom: 14px; }
+  .stat-box {
+    flex: 1; background: #FBF1E1; border: 1px solid #F0DFC4; border-radius: 12px;
+    padding: 14px; text-align: center;
+  }
+  .stat-box .stat-num { font-size: 22px; font-weight: 700; color: var(--sindoor); }
+  .stat-box .stat-label { font-size: 11px; color: #8A7A6D; margin-top: 2px; }
+  .donor-note { font-size: 12px; color: #8A7A6D; line-height: 1.5; }
+
+  /* Contact */
+  .contact-card {
+    display: flex; align-items: center; gap: 12px; background: #FBF1E1;
+    border: 1px solid #F0DFC4; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px;
+    text-decoration: none; color: var(--ink);
+  }
+  .contact-card .icon { font-size: 20px; }
+  .contact-card b { display: block; font-size: 13px; }
+  .contact-card span { font-size: 12px; color: #8A7A6D; }
+
   .footer {
-    text-align: center;
-    font-size: 12px;
-    color: #9A8A7C;
+    text-align: center; font-size: 12px; color: #9A8A7C;
     padding: 8px clamp(16px, 5vw, 24px) calc(28px + var(--safe-bottom));
   }
 
-  .error-msg {
-    color: var(--sindoor);
-    font-size: 13px;
-    margin-top: 8px;
-    text-align: center;
-    display: none;
-  }
-
   .thankyou-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(59, 36, 29, 0.55);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 50;
-    padding: 16px;
+    position: fixed; inset: 0; background: rgba(59, 36, 29, 0.55);
+    display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px;
   }
-
-  .thankyou-card {
-    background: #fff;
-    border-radius: 20px;
-    padding: 32px 26px;
-    max-width: 340px;
-    width: 100%;
-    text-align: center;
-  }
-
+  .thankyou-card { background: #fff; border-radius: 20px; padding: 32px 26px; max-width: 340px; width: 100%; text-align: center; }
   .thankyou-card .om { font-size: 40px; }
-
-  .thankyou-card h2 {
-    font-family: 'Yatra One', serif;
-    color: var(--sindoor);
-    margin: 8px 0 6px;
-  }
-
+  .thankyou-card h2 { font-family: 'Yatra One', serif; color: var(--sindoor); margin: 8px 0 6px; }
   .thankyou-card p { font-size: 14px; color: #5A443C; line-height: 1.5; }
-
   .close-btn {
-    margin-top: 14px;
-    background: var(--green);
-    color: #fff;
-    border: none;
-    padding: 12px 22px;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    min-height: 44px;
+    margin-top: 14px; background: var(--green); color: #fff; border: none;
+    padding: 12px 22px; border-radius: 10px; font-weight: 600; cursor: pointer; min-height: 44px;
   }
 
-  /* Landscape phones: hero shrinks so the form isn't pushed below the fold */
   @media (max-height: 480px) and (orientation: landscape) {
-    .hero { padding-top: calc(14px + var(--safe-top)); padding-bottom: 14px; }
+    .hero { padding-top: 14px; padding-bottom: 14px; }
     .festival-title { margin-top: 8px; }
     .diya-row { margin: 14px 0 4px; }
   }
@@ -249,48 +339,136 @@
 <body>
 
 <div class="page">
-  <div class="hero">
+
+  <nav class="topnav">
+    <div class="nav-inner">
+      <span class="nav-logo">🕉️ TMC Ganesh Union</span>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#events">Events</a>
+      <a href="#donors">Donors List</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <div class="hero" id="home">
     <div class="om">🕉️</div>
     <div class="org-name">TMC Ganesh Union</div>
-    <div class="tagline">Community Vinayaka Chaturthi Committee</div>
-    <div class="festival-title">🐘 Vinayaka Chaturthi Contribution 🌸</div>
+    <div class="tagline">Kotla veedhi Ganesh Community</div>
+    <div class="festival-title">🐘 Vinayaka Chaturthi Celebrations (2026) 🌸</div>
   </div>
+
+  <div class="slides" id="slides">
+    <div class="slide slide-1 active">
+      <div class="slide-icon">🙏</div>
+      <div class="slide-title">Ganapati Bappa Morya!</div>
+      <div class="slide-sub">Welcoming Bappa home with our community's love</div>
+    </div>
+    <div class="slide slide-2">
+      <div class="slide-icon">📅</div>
+      <div class="slide-title">Celebrations Begin Soon</div>
+      <div class="slide-sub">(Committee: add pandal address and daily pooja timings here)</div>
+    </div>
+    <div class="slide slide-3">
+      <div class="slide-icon">💰</div>
+      <div class="slide-title">Every Contribution Counts</div>
+      <div class="slide-sub">Big or small, your support keeps our traditions alive</div>
+    </div>
+    <div class="slide slide-4">
+      <div class="slide-icon">🎉</div>
+      <div class="slide-title">A Festival for Everyone</div>
+      <div class="slide-sub">Join us for pooja, prasadam, and community celebration</div>
+    </div>
+    <div class="slide-dots" id="slideDots"></div>
+  </div>
+
   <div class="rangoli-border"></div>
 
   <div class="content">
-    <div class="about">
-      <b>Ganapati Bappa Morya!</b> This year's Vinayaka Chaturthi celebrations —
-      pandal setup, decorations, daily pooja, prasadam, and visarjan — are made
-      possible by contributions from our community. Every amount, big or
-      small, helps. <br><br>
-      <em>(Committee: edit this paragraph with your actual event details before publishing.)</em>
+
+    <div class="section" id="contribute-section">
+      <div class="about">
+        <b>Ganapati Bappa Morya!</b> This year's Vinayaka Chaturthi celebrations —
+        pandal setup, decorations, daily pooja, prasadam, and visarjan — are made
+        possible by contributions from our community. Every amount, big or
+        small, helps. <br><br>
+        <em>(Committee: edit this paragraph with your actual event details before publishing.)</em>
+      </div>
+
+      <form id="donationForm">
+        <div class="field">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="e.g. Ravindra Reddy" required />
+        </div>
+        <div class="field">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" inputmode="numeric" placeholder="10-digit mobile number" pattern="[0-9]{10}" required />
+        </div>
+        <div class="field">
+          <label for="amount">Contribution Amount</label>
+          <div class="amount-wrap">
+            <span>₹</span>
+            <input type="number" id="amount" inputmode="numeric" placeholder="Enter any amount" min="10" required />
+          </div>
+        </div>
+        <button type="submit" class="contribute-btn" id="payBtn">Contribute Now</button>
+        <div class="error-msg" id="errorMsg"></div>
+        <div class="secure-note">🔒 Payments are processed securely via Razorpay and settle directly to TMC Ganesh Union's registered bank account.</div>
+      </form>
+
+      <div class="diya-row">🪔 🪔 🪔 🪔 🪔</div>
     </div>
 
-    <form id="donationForm">
-      <div class="field">
-        <label for="name">Your Name</label>
-        <input type="text" id="name" placeholder="e.g. Ramesh Kumar" required />
+    <div class="section" id="events">
+      <div class="section-title">📅 Events Schedule</div>
+      <div class="event-item">
+        <div class="event-date">Day&nbsp;1</div>
+        <div class="event-info"><b>Ganesh Sthapana</b><span>Morning pooja and idol installation (add time)</span></div>
       </div>
-
-      <div class="field">
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" inputmode="numeric" placeholder="10-digit mobile number" pattern="[0-9]{10}" required />
+      <div class="event-item">
+        <div class="event-date">Day&nbsp;3</div>
+        <div class="event-info"><b>Cultural Evening</b><span>Community performances (add time)</span></div>
       </div>
+      <div class="event-item">
+        <div class="event-date">Day&nbsp;5</div>
+        <div class="event-info"><b>Maha Prasadam</b><span>Community lunch for all (add time)</span></div>
+      </div>
+      <div class="event-item">
+        <div class="event-date">Day&nbsp;9</div>
+        <div class="event-info"><b>Visarjan</b><span>Procession and immersion (add time)</span></div>
+      </div>
+      <div class="donor-note" style="margin-top:10px;">(Committee: replace these with your actual dates and timings.)</div>
+    </div>
 
-      <div class="field">
-        <label for="amount">Contribution Amount</label>
-        <div class="amount-wrap">
-          <span>₹</span>
-          <input type="number" id="amount" inputmode="numeric" placeholder="Enter any amount" min="10" required />
+    <div class="section" id="donors">
+      <div class="section-title">🙏 Donors List</div>
+      <div class="donor-stats">
+        <div class="stat-box">
+          <div class="stat-num" id="totalCollected">—</div>
+          <div class="stat-label">Total Collected (₹)</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="totalContributors">—</div>
+          <div class="stat-label">Contributors</div>
         </div>
       </div>
+      <div class="donor-note">Individual donor names can be published here by the committee once collection is complete, with each contributor's consent.</div>
+    </div>
 
-      <button type="submit" class="contribute-btn" id="payBtn">Contribute Now</button>
-      <div class="error-msg" id="errorMsg"></div>
-      <div class="secure-note">🔒 Payments are processed securely via Razorpay and settle directly to TMC Ganesh Union's registered bank account.</div>
-    </form>
+    <div class="section" id="contact">
+      <div class="section-title">📞 Contact the Committee</div>
+      <a class="contact-card" href="https://wa.me/916301764120" target="_blank" rel="noopener">
+        <span class="icon">💬</span>
+        <span><b>WhatsApp</b><span>Chat with the committee (update number)</span></span>
+      </a>
+      <a class="contact-card" href="tel:+917569880978">
+        <span class="icon">📱</span>
+        <span><b>Call</b><span>+91 90000 00000 (update number)</span></span>
+      </a>
+    </div>
 
-    <div class="diya-row">🪔 🪔 🪔 🪔 🪔</div>
   </div>
 
   <div class="footer">
@@ -313,6 +491,50 @@
   const RAZORPAY_KEY_ID = "rzp_test_TIoAqX3hWOj4xf"; // your Razorpay publishable Key ID (safe to expose)
   // ==========================================
 
+  // ---- Hamburger menu ----
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const navLinks = document.getElementById("navLinks");
+  hamburgerBtn.addEventListener("click", () => navLinks.classList.toggle("open"));
+  navLinks.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => navLinks.classList.remove("open"))
+  );
+
+  // ---- Slides carousel ----
+  const slideEls = document.querySelectorAll(".slide");
+  const dotsWrap = document.getElementById("slideDots");
+  let slideIndex = 0;
+
+  slideEls.forEach((_, i) => {
+    const dot = document.createElement("button");
+    dot.className = "slide-dot" + (i === 0 ? " active" : "");
+    dot.addEventListener("click", () => showSlide(i));
+    dotsWrap.appendChild(dot);
+  });
+  const dotEls = document.querySelectorAll(".slide-dot");
+
+  function showSlide(i) {
+    slideEls[slideIndex].classList.remove("active");
+    dotEls[slideIndex].classList.remove("active");
+    slideIndex = i;
+    slideEls[slideIndex].classList.add("active");
+    dotEls[slideIndex].classList.add("active");
+  }
+
+  setInterval(() => showSlide((slideIndex + 1) % slideEls.length), 4000);
+
+  // ---- Donors summary (pulls live totals from the backend) ----
+  fetch(`${API_BASE_URL}/donations-summary`)
+    .then((res) => res.json())
+    .then((data) => {
+      document.getElementById("totalCollected").textContent = data.totalCollected ?? "0";
+      document.getElementById("totalContributors").textContent = data.totalContributors ?? "0";
+    })
+    .catch(() => {
+      document.getElementById("totalCollected").textContent = "0";
+      document.getElementById("totalContributors").textContent = "0";
+    });
+
+  // ---- Donation form + Razorpay checkout ----
   const form = document.getElementById("donationForm");
   const payBtn = document.getElementById("payBtn");
   const errorMsg = document.getElementById("errorMsg");
