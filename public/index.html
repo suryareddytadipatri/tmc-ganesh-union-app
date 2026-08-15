@@ -294,7 +294,7 @@
   /* Donors summary */
   .donor-stats { display: flex; gap: 12px; margin-bottom: 14px; }
   .stat-box {
-    flex: 1; background: #FBF1E1; border: 1px solid #F0DFC4; border-radius: 12px;
+    flex: 1; background: #FBF1E1; border-radius: 12px;
     padding: 14px; text-align: center;
   }
   .stat-box .stat-num { font-size: 22px; font-weight: 700; color: var(--sindoor); }
@@ -394,10 +394,23 @@
     font-weight: 600;
   }
 
+  /* Reusable disco-style gradient border, for donor stats / contact / about cards */
+  .disco-border {
+    border: 2.5px solid transparent;
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+  }
+  .disco-1 { background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #FF3D7F, #FFC93D, #3DDCFF, #7B4EA3); }
+  .disco-2 { background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #3DDCFF, #3DFF8F, #FFC93D, #FF3D7F); }
+  .disco-3 { background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #C084E8, #FF7A5C, #FFD93D, #3DDCFF); }
+  .disco-4 { background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #FFB13D, #FF3DA6, #3D8CFF, #3DFFB8); }
+  .disco-5 { background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #3DFFD9, #C0FF3D, #FF6A3D, #C084E8); }
+  .disco-6 { background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #FF3D3D, #FFDD3D, #3DFF7A, #3D9FFF, #C043FF); }
+
   /* Contact */
   .contact-card {
     display: flex; align-items: center; gap: 12px; background: #FBF1E1;
-    border: 1px solid #F0DFC4; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px;
+    border-radius: 12px; padding: 12px 14px; margin-bottom: 10px;
     text-decoration: none; color: var(--ink);
   }
   .contact-card .icon { font-size: 20px; }
@@ -409,14 +422,22 @@
     padding: 8px clamp(16px, 5vw, 24px) calc(28px + var(--safe-bottom));
   }
 
+  .footer .credit { margin-top: 6px; font-size: 10px; opacity: 0.7; font-style: italic; }
+
   .thankyou-overlay {
     position: fixed; inset: 0; background: rgba(59, 36, 29, 0.55);
     display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px;
   }
-  .thankyou-card { background: #fff; border-radius: 20px; padding: 32px 26px; max-width: 340px; width: 100%; text-align: center; }
-  .thankyou-card .om { font-size: 40px; }
-  .thankyou-card h2 { font-family: 'Yatra One', serif; color: var(--sindoor); margin: 8px 0 6px; }
-  .thankyou-card p { font-size: 14px; color: #5A443C; line-height: 1.5; }
+  .thankyou-card { background: #fff; border-radius: 20px; padding: 30px 24px; max-width: 340px; width: 100%; text-align: center; }
+  .thankyou-card .om { font-size: 38px; }
+  .thankyou-card h2 { font-family: 'Yatra One', serif; color: var(--sindoor); margin: 6px 0 2px; }
+  .ty-org { font-family: 'Yatra One', serif; font-size: 15px; color: var(--gold); background: var(--sindoor); display: inline-block; padding: 3px 14px; border-radius: 20px; margin-bottom: 16px; }
+  .ty-details { background: #FBF1E1; border-radius: 14px; padding: 12px 16px; margin-bottom: 14px; text-align: left; }
+  .ty-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #EEDFC4; font-size: 13px; }
+  .ty-row:last-child { border-bottom: none; }
+  .ty-row span { color: #8A7A6D; }
+  .ty-row b { color: var(--ink); }
+  .thankyou-card p { font-size: 13px; color: #5A443C; line-height: 1.5; }
   .close-btn {
     margin-top: 14px; background: var(--green); color: #fff; border: none;
     padding: 12px 22px; border-radius: 10px; font-weight: 600; cursor: pointer; min-height: 44px;
@@ -443,6 +464,7 @@
       <a href="#events">Events</a>
       <a href="#committee">Committee Members</a>
       <a href="#donors">Donors List</a>
+      <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </div>
   </nav>
@@ -488,7 +510,7 @@
         pandal setup, decorations, daily pooja, prasadam, and visarjan — are made
         possible by contributions from our community. Every amount, big or
         small, helps. <br><br>
-        <em>(!! Ganapthi Bappa Moriya !!)</em>
+        <em>(      !! Ganapthi Bappa Moriya !!      )</em>
       </div>
 
       <form id="donationForm">
@@ -560,7 +582,7 @@
           <div class="member-info">
             <div class="member-name">Sasidhar Reddy</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+919703351740">+91 9703351740</a>
+            <a class="member-phone" href="tel:+919000000002">+91 90000 00002</a>
           </div>
         </div>
 
@@ -608,7 +630,7 @@
           <div class="member-info">
             <div class="member-name">Narendra Reddy</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+919676802772">+91 9676802772</a>
+            <a class="member-phone" href="tel:+919000000006">+91 90000 00006</a>
           </div>
         </div>
 
@@ -620,7 +642,7 @@
           <div class="member-info">
             <div class="member-name">Subbarayudu</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+918374524104">+91 8374524104</a>
+            <a class="member-phone" href="tel:+919000000007">+91 90000 00007</a>
           </div>
         </div>
 
@@ -632,7 +654,7 @@
           <div class="member-info">
             <div class="member-name">Sriram Reddy</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+917981972867">+91 7981972867</a>
+            <a class="member-phone" href="tel:+919000000008">+91 90000 00008</a>
           </div>
         </div>
 
@@ -644,7 +666,7 @@
           <div class="member-info">
             <div class="member-name">Prakash</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+917659097627">+91 7659097627</a>
+            <a class="member-phone" href="tel:+919000000009">+91 90000 00009</a>
           </div>
         </div>
 
@@ -656,7 +678,7 @@
           <div class="member-info">
             <div class="member-name">Sreenath Reddy</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+919392441669">+91 9392441669</a>
+            <a class="member-phone" href="tel:+919000000010">+91 90000 00010</a>
           </div>
         </div>
 
@@ -668,7 +690,7 @@
           <div class="member-info">
             <div class="member-name">Venkata Ramana Reddy</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+917997617510">+91 7997617510</a>
+            <a class="member-phone" href="tel:+919000000011">+91 90000 00011</a>
           </div>
         </div>
 
@@ -680,7 +702,7 @@
           <div class="member-info">
             <div class="member-name">Siva Kumar Reddy</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+918978745003">+91 8978745003</a>
+            <a class="member-phone" href="tel:+919000000012">+91 90000 00012</a>
           </div>
         </div>
 
@@ -692,7 +714,7 @@
           <div class="member-info">
             <div class="member-name">Nagi Reddy</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+917729850286">+91 7729850286</a>
+            <a class="member-phone" href="tel:+919000000013">+91 90000 00013</a>
           </div>
         </div>
 
@@ -704,7 +726,7 @@
           <div class="member-info">
             <div class="member-name">Yeswanth Reddy</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+919381868416">+91 9381868416</a>
+            <a class="member-phone" href="tel:+919000000014">+91 90000 00014</a>
           </div>
         </div>
 
@@ -716,7 +738,7 @@
           <div class="member-info">
             <div class="member-name">Narasimha</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+916305127058">+91 6305127058</a>
+            <a class="member-phone" href="tel:+919000000015">+91 90000 00015</a>
           </div>
         </div>
 
@@ -728,7 +750,7 @@
           <div class="member-info">
             <div class="member-name">Dheva Kesava Reddy</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+917569149779">+91 7569149779</a>
+            <a class="member-phone" href="tel:+919000000016">+91 90000 00016</a>
           </div>
         </div>
 
@@ -740,7 +762,7 @@
           <div class="member-info">
             <div class="member-name">Pavan Kumar Reddy</div>
             <div class="member-role">Committee Member</div>
-            <a class="member-phone" href="tel:+919963926672">+91 9963926672</a>
+            <a class="member-phone" href="tel:+919000000017">+91 90000 00017</a>
           </div>
         </div>
 
@@ -757,17 +779,17 @@
         </div>
 
       </div>
-      <div class="donor-note" style="margin-top:12px;"><b>Unity is the Strength</b></div>
+      <div class="donor-note" style="margin-top:12px;">(Committee: replace phone numbers marked 90000 000XX with actual numbers, and add real photos — see instructions.)</div>
     </div>
 
     <div class="section" id="donors">
       <div class="section-title">🙏 Donors List</div>
       <div class="donor-stats">
-        <div class="stat-box">
+        <div class="stat-box disco-border disco-1">
           <div class="stat-num" id="totalCollected">—</div>
           <div class="stat-label">Total Collected (₹)</div>
         </div>
-        <div class="stat-box">
+        <div class="stat-box disco-border disco-2">
           <div class="stat-num" id="totalContributors">—</div>
           <div class="stat-label">Contributors</div>
         </div>
@@ -775,13 +797,32 @@
       <div class="donor-note">Individual donor names can be published here by the committee once collection is complete, with each contributor's consent.</div>
     </div>
 
+    <div class="section" id="about">
+      <div class="section-title">✨ About &amp; Follow Us</div>
+      <div class="about" style="margin-bottom:14px;">
+        TMC Ganesh Union is a community committee celebrating Vinayaka Chaturthi with pooja, cultural events, and prasadam for everyone in Kotla Veedhi. Follow us for updates and photos from the celebrations.
+      </div>
+      <a class="contact-card disco-border disco-5" href="https://www.instagram.com/kotlo_veedhi_ganesh_union?igsh=YnVzbnFwMTA0YzVt&igsi=YnVzbnFwMTA0YzVt" target="_blank" rel="noopener">
+        <span class="icon">📸</span>
+        <span><b>Instagram</b><span>@tmcganeshunion (update handle)</span></span>
+      </a>
+      <a class="contact-card disco-border disco-6" href="https://chat.whatsapp.com/KvUoq3x6xTI86bAMusACWn?s=cl&p=a&ilr=4" target="_blank" rel="noopener">
+        <span class="icon">💬</span>
+        <span><b>WhatsApp</b><span>Join our community updates</span></span>
+      </a>
+      <a class="contact-card disco-border disco-1" href="https://www.facebook.com/share/1JkiK3jMgJ/" target="_blank" rel="noopener">
+        <span class="icon">📘</span>
+        <span><b>Facebook</b><span>TMC Ganesh Union (update page link)</span></span>
+      </a>
+    </div>
+
     <div class="section" id="contact">
       <div class="section-title">📞 Contact the Committee</div>
-      <a class="contact-card" href="https://wa.me/916301764120" target="_blank" rel="noopener">
+      <a class="contact-card disco-border disco-3" href="https://wa.me/916301764120" target="_blank" rel="noopener">
         <span class="icon">💬</span>
         <span><b>WhatsApp</b><span><b>916301764120 (Sudarshan Reddy)</b></span></span>
       </a>
-      <a class="contact-card" href="tel:+917569880978">
+      <a class="contact-card disco-border disco-4" href="tel:+917569880978">
         <span class="icon">📱</span>
         <span><b>Call</b><span><b>+91 917569880978 (Madhusudhan Reddy)</b></span></span>
       </a>
@@ -790,7 +831,8 @@
   </div>
 
   <div class="footer">
-    TMC Ganesh Union &middot; For queries, contact the committee via WhatsApp
+    TMC Ganesh Union &middot; For queries, contact the committee via WhatsApp, Facebook, Instagram
+    <div class="credit">Website created by $urya Reddy</div>
   </div>
 </div>
 
@@ -798,7 +840,13 @@
   <div class="thankyou-card">
     <div class="om">🙏</div>
     <h2>Thank You!</h2>
-    <p id="thankyouMsg">Your contribution has been received. Ganapati Bappa Morya!</p>
+    <div class="ty-org">TMC Ganesh Union</div>
+    <div class="ty-details">
+      <div class="ty-row"><span>Donor</span><b id="tyName">—</b></div>
+      <div class="ty-row"><span>Amount</span><b id="tyAmount">—</b></div>
+      <div class="ty-row"><span>Year</span><b id="tyYear">—</b></div>
+    </div>
+    <p id="thankyouMsg">Ganapati Bappa Morya! Your contribution has been received.</p>
     <button class="close-btn" onclick="document.getElementById('thankyouOverlay').style.display='none'">Close</button>
   </div>
 </div>
@@ -893,8 +941,9 @@
         prefill: { name, contact: phone },
         theme: { color: "#A13D2B" },
         handler: function (response) {
-          document.getElementById("thankyouMsg").textContent =
-            `Thank you, ${name}! Your contribution of ₹${amount} has been received. Ganapati Bappa Morya!`;
+          document.getElementById("tyName").textContent = name;
+          document.getElementById("tyAmount").textContent = `₹${amount}`;
+          document.getElementById("tyYear").textContent = new Date().getFullYear();
           document.getElementById("thankyouOverlay").style.display = "flex";
           form.reset();
         },
