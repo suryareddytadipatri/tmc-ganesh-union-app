@@ -301,29 +301,61 @@
   .stat-box .stat-label { font-size: 11px; color: #8A7A6D; margin-top: 2px; }
   .donor-note { font-size: 12px; color: #8A7A6D; line-height: 1.5; }
 
-  /* Committee Members */
-  .committee-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+  /* ---------- Committee Members: message/chat-list style rows ---------- */
+  .committee-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
-  .member-card {
+  .member-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     background: #FBF1E1;
-    border: 1px solid #F0DFC4;
-    border-radius: 14px;
-    padding: 14px 10px 12px;
-    text-align: center;
+    border-radius: 16px;
+    border-top-left-radius: 4px; /* chat-bubble notch feel */
+    padding: 8px 14px 8px 8px;
+    border: 2.5px solid transparent;
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+  }
+
+  /* Disco-style multi-colour gradient borders, cycling every 6 rows */
+  .member-row:nth-child(6n+1) {
+    background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #FF3D7F, #FFC93D, #3DDCFF, #7B4EA3);
+  }
+  .member-row:nth-child(6n+2) {
+    background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #3DDCFF, #3DFF8F, #FFC93D, #FF3D7F);
+  }
+  .member-row:nth-child(6n+3) {
+    background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #C084E8, #FF7A5C, #FFD93D, #3DDCFF);
+  }
+  .member-row:nth-child(6n+4) {
+    background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #FFB13D, #FF3DA6, #3D8CFF, #3DFFB8);
+  }
+  .member-row:nth-child(6n+5) {
+    background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #3DFFD9, #C0FF3D, #FF6A3D, #C084E8);
+  }
+  .member-row:nth-child(6n+6) {
+    background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #FF3D3D, #FFDD3D, #3DFF7A, #3D9FFF, #C043FF);
   }
 
   .member-photo-wrap {
-    width: 74px;
-    height: 74px;
-    margin: 0 auto 8px;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
     border-radius: 50%;
-    padding: 3px;
-    background: linear-gradient(135deg, var(--gold), var(--sindoor));
+    padding: 2.5px;
   }
+
+  /* Six rotating border colour combos, cycling every 6 rows */
+  .member-row:nth-child(6n+1) .member-photo-wrap { background: linear-gradient(135deg, var(--gold), var(--sindoor)); }
+  .member-row:nth-child(6n+2) .member-photo-wrap { background: linear-gradient(135deg, #2F5233, #6FA37A); }
+  .member-row:nth-child(6n+3) .member-photo-wrap { background: linear-gradient(135deg, #7B4EA3, #C084E8); }
+  .member-row:nth-child(6n+4) .member-photo-wrap { background: linear-gradient(135deg, #2A6F8E, #6ECBE8); }
+  .member-row:nth-child(6n+5) .member-photo-wrap { background: linear-gradient(135deg, #C9683F, #F2A65A); }
+  .member-row:nth-child(6n+6) .member-photo-wrap { background: linear-gradient(135deg, #B4661F, #E7A93D); }
 
   .member-photo-wrap .member-photo-inner {
     width: 100%;
@@ -345,17 +377,18 @@
   }
 
   .member-photo-inner .placeholder-icon {
-    font-size: 30px;
+    font-size: 20px;
     color: var(--sindoor);
-    opacity: 0.5;
+    opacity: 0.55;
   }
 
-  .member-name { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.3; }
-  .member-role { font-size: 10.5px; color: var(--sindoor); font-weight: 600; margin-top: 1px; }
+  .member-info { flex: 1; min-width: 0; }
+  .member-name { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .member-role { font-size: 11px; color: var(--sindoor); font-weight: 600; margin-top: 1px; }
   .member-phone {
     display: inline-block;
-    margin-top: 6px;
-    font-size: 11.5px;
+    margin-top: 3px;
+    font-size: 12px;
     color: var(--green);
     text-decoration: none;
     font-weight: 600;
@@ -455,7 +488,7 @@
         pandal setup, decorations, daily pooja, prasadam, and visarjan — are made
         possible by contributions from our community. Every amount, big or
         small, helps. <br><br>
-        <em>      (!! Ganapthi Bappa Moriya !!)     </em>
+        <em>(!! Ganapthi Bappa Moriya !!)</em>
       </div>
 
       <form id="donationForm">
@@ -505,180 +538,226 @@
 
     <div class="section" id="committee">
       <div class="section-title">🤝 Committee Members</div>
-      <div class="committee-grid">
-        <div class="member-card">
+      <div class="committee-list">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <!-- Replace src below with the real photo path once uploaded, e.g. images/member1.jpg -->
-            <img src="images/member1.jpg" alt="Member 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member1.jpg" alt="Karunakar Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Karunakar Reddy</div>
-          <div class="member-role">Committe Member</div>
-          <a class="member-phone" href="tel:+919000000001">+91 9963437246</a>
+          <div class="member-info">
+            <div class="member-name">Karunakar Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919963437246">+91 99634 37246</a>
+          </div>
         </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member2.jpg" alt="Member 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member2.jpg" alt="Sasidhar Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Sasidhar Reddy</div>
-          <div class="member-role">Committe Member</div>
-          <a class="member-phone" href="tel:+919000000002">+91 90000 00002</a>
+          <div class="member-info">
+            <div class="member-name">Sasidhar Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000002">+91 90000 00002</a>
+          </div>
         </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member3.jpg" alt="Member 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member3.jpg" alt="Madhusudhan Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Madhusudhan Reddy</div>
-          <div class="member-role">Committe Member</div>
-          <a class="member-phone" href="tel:+919000000003">+91 90000 00003</a>
+          <div class="member-info">
+            <div class="member-name">Madhusudhan Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+917569880978">+91 75698 80978</a>
+          </div>
         </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member4.jpg" alt="Member 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member4.jpg" alt="Sudarshan Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Sudarshan Reddy</div>
-          <div class="member-role">Committe Member</div>
-          <a class="member-phone" href="tel:+919000000004">+91 90000 00004</a>
+          <div class="member-info">
+            <div class="member-name">Sudarshan Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+916301764120">+91 63017 64120</a>
+          </div>
         </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member5.jpg" alt="Member 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member5.jpg" alt="Ravindra Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Ravindra Reddy</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000005">+91 7997555414</a>
+          <div class="member-info">
+            <div class="member-name">Ravindra Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+917997555414">+91 79975 55414</a>
+          </div>
         </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member6.jpg" alt="Member 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member6.jpg" alt="Narendra Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Narendra Reddy</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000006">+91 90000 00006</a>
+          <div class="member-info">
+            <div class="member-name">Narendra Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000006">+91 90000 00006</a>
+          </div>
         </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member7.jpg" alt="Member 7" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member7.jpg" alt="Subbarayudu" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Subbarayudu</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000007">+91 90000 00007</a>
+          <div class="member-info">
+            <div class="member-name">Subbarayudu</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000007">+91 90000 00007</a>
+          </div>
         </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member8.jpg" alt="Member 8" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member8.jpg" alt="Sriram Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Sriram Reddy</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000008">+91 90000 00008</a>
+          <div class="member-info">
+            <div class="member-name">Sriram Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000008">+91 90000 00008</a>
+          </div>
         </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member9.jpg" alt="Member 9" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member9.jpg" alt="Prakash" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Prakash</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000009">+91 90000 00009</a>
+          <div class="member-info">
+            <div class="member-name">Prakash</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000009">+91 90000 00009</a>
+          </div>
         </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member10.jpg" alt="Member 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member10.jpg" alt="Sreenath Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Sreenath Reddy</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000010">+91 90000 00010</a>
+          <div class="member-info">
+            <div class="member-name">Sreenath Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000010">+91 90000 00010</a>
+          </div>
         </div>
-         </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member10.jpg" alt="Member 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member11.jpg" alt="Venkata Ramana Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Venkata Ramana Reddy</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000010">+91 90000 00010</a>
+          <div class="member-info">
+            <div class="member-name">Venkata Ramana Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000011">+91 90000 00011</a>
+          </div>
         </div>
-       </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member10.jpg" alt="Member 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member12.jpg" alt="Siva Kumar Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Siva Kumar Reddy</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000010">+91 90000 00010</a>
+          <div class="member-info">
+            <div class="member-name">Siva Kumar Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000012">+91 90000 00012</a>
+          </div>
         </div>
-     </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member10.jpg" alt="Member 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member13.jpg" alt="Nagi Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Nagi Reddy</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000010">+91 90000 00010</a>
+          <div class="member-info">
+            <div class="member-name">Nagi Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000013">+91 90000 00013</a>
+          </div>
         </div>
-   </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member10.jpg" alt="Member 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member14.jpg" alt="Yeswanth Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Yeswanth Reddy</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000010">+91 90000 00010</a>
+          <div class="member-info">
+            <div class="member-name">Yeswanth Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000014">+91 90000 00014</a>
+          </div>
         </div>
-   </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member10.jpg" alt="Member 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member15.jpg" alt="Narasimha" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Narasimha</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000010">+91 90000 00010</a>
+          <div class="member-info">
+            <div class="member-name">Narasimha</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000015">+91 90000 00015</a>
+          </div>
         </div>
-   </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member10.jpg" alt="Member 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member16.jpg" alt="Dheva Kesava Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Dheva Kesava Reddy</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000010">+91 90000 00010</a>
+          <div class="member-info">
+            <div class="member-name">Dheva Kesava Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000016">+91 90000 00016</a>
+          </div>
         </div>
-   </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member10.jpg" alt="Member 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member17.jpg" alt="Pavan Kumar Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Pavan Kumar Reddy</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000010">+91 90000 00010</a>
+          <div class="member-info">
+            <div class="member-name">Pavan Kumar Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919000000017">+91 90000 00017</a>
+          </div>
         </div>
-   </div>
-        <div class="member-card">
+
+        <div class="member-row">
           <div class="member-photo-wrap"><div class="member-photo-inner">
-            <img src="images/member10.jpg" alt="Member 10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <span class="placeholder-icon" style="display:none;">🙏</span>
+            <img src="images/member18.jpg" alt="Suryaprakash Reddy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="placeholder-icon" style="display:none;">👤</span>
           </div></div>
-          <div class="member-name">Suryaprakash Reddy</div>
-          <div class="member-role">Committee Member</div>
-          <a class="member-phone" href="tel:+919000000010">+91 9347763218</a>
+          <div class="member-info">
+            <div class="member-name">Suryaprakash Reddy</div>
+            <div class="member-role">Committee Member</div>
+            <a class="member-phone" href="tel:+919347763218">+91 93477 63218</a>
+          </div>
         </div>
+
       </div>
-      <div class="donor-note" style="margin-top:8px;">(Committee: replace names, phone numbers, and roles above with actual details. See instructions for adding real photos.)</div>
+      <div class="donor-note" style="margin-top:12px;">(Committee: replace phone numbers marked 90000 000XX with actual numbers, and add real photos — see instructions.)</div>
     </div>
 
     <div class="section" id="donors">
