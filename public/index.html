@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="Ganesh Union" />
 <link rel="manifest" href="/manifest.json" />
 <title>TMC Ganesh Union — Vinayaka Chaturthi Celebrations (2026)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Yatra+One&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap');
 
@@ -466,12 +467,22 @@
   .qr-vpa { font-size: 12px; color: #8A7A6D; margin-bottom: 16px; word-break: break-all; }
   .upi-app-btn {
     display: block; background: var(--gold); color: var(--ink); text-decoration: none;
-    font-weight: 700; padding: 12px; border-radius: 10px; font-size: 14px; margin-bottom: 10px;
+    font-weight: 700; padding: 12px; border-radius: 10px; font-size: 14px; margin-bottom: 14px;
   }
+  .utr-field { text-align: left; margin-bottom: 12px; }
+  .utr-field label { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+  .utr-field input {
+    width: 100%; padding: 12px 13px; border-radius: 10px; border: 1.5px solid #E7D8C2;
+    font-size: 15px; font-family: 'Poppins', 'Noto Sans Telugu', sans-serif;
+    background: #FFFDF9; color: var(--ink); min-height: 46px;
+  }
+  .utr-field input:focus { outline: none; border-color: var(--sindoor); }
+  .utr-hint { font-size: 10.5px; color: #9A8A7C; margin-top: 4px; line-height: 1.4; }
   .paid-btn {
     display: block; width: 100%; background: var(--green); color: #fff; border: none;
     padding: 12px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; margin-bottom: 12px;
   }
+  .paid-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .qr-note { font-size: 11px; color: #9A8A7C; line-height: 1.5; }
 
   .thankyou-overlay {
@@ -493,6 +504,12 @@
     margin-top: 14px; background: var(--green); color: #fff; border: none;
     padding: 12px 22px; border-radius: 10px; font-weight: 600; cursor: pointer; min-height: 44px;
   }
+  .download-btn {
+    margin-top: 14px; margin-left: 8px; background: var(--gold); color: var(--ink); border: none;
+    padding: 12px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; min-height: 44px;
+  }
+  .ty-actions { display: flex; justify-content: center; flex-wrap: wrap; }
+  .ty-credit { margin-top: 14px; font-size: 10px; color: #9A8A7C; font-style: italic; }
 
   @media (max-height: 480px) and (orientation: landscape) {
     .hero { padding-top: 14px; padding-bottom: 14px; }
@@ -907,25 +924,37 @@
     <div class="qr-amount">₹<span id="qrAmount"></span></div>
     <div class="qr-vpa">UPI ID: 9347763218@kotakbank</div>
     <a id="upiAppLink" class="upi-app-btn" href="#" data-en="📲 Pay via UPI App" data-te="📲 UPI యాప్‌తో చెల్లించండి">📲 Pay via UPI App</a>
-    <button class="paid-btn" id="paidBtn" data-en="✅ I've Paid" data-te="✅ నేను చెల్లించాను">✅ I've Paid</button>
+    <div class="utr-field">
+      <label for="utrInput" data-en="UPI Transaction ID / Reference No." data-te="UPI ట్రాన్సాక్షన్ ID / రిఫరెన్స్ నంబర్">UPI Transaction ID / Reference No.</label>
+      <input type="text" id="utrInput" placeholder="e.g. 402812345678" data-en="e.g. 402812345678" data-te="ఉదా: 402812345678" />
+      <div class="utr-hint" data-en="After paying, your UPI app shows this number (UTR / Ref No.) on the payment success screen — enter it here to get your thank-you card." data-te="పేమెంట్ చేశాక, మీ UPI యాప్ ఈ నంబర్ (UTR / Ref No.) success screen పై చూపిస్తుంది — thank-you card కోసం దాన్ని ఇక్కడ enter చేయండి.">After paying, your UPI app shows this number (UTR / Ref No.) on the payment success screen — enter it here to get your thank-you card.</div>
+    </div>
+    <button class="paid-btn" id="paidBtn" disabled data-en="✅ Submit &amp; Get Thank-You Card" data-te="✅ సమర్పించి Thank-You Card పొందండి">✅ Submit &amp; Get Thank-You Card</button>
     <div class="qr-note" data-en="Scan this QR with any UPI app (PhonePe, GPay, Paytm, etc.) or tap the button above on your phone." data-te="ఈ QR ని ఏదైనా UPI యాప్‌తో (PhonePe, GPay, Paytm) స్కాన్ చేయండి, లేదా మీ ఫోన్‌లో పైన ఉన్న బటన్ నొక్కండి.">Scan this QR with any UPI app (PhonePe, GPay, Paytm, etc.) or tap the button above on your phone.</div>
   </div>
 </div>
 
 <div class="thankyou-overlay" id="thankyouOverlay">
   <div class="thankyou-card">
-    <div class="om">🙏</div>
-    <h2 data-en="Thank You!" data-te="ధన్యవాదాలు!">Thank You!</h2>
-    <div class="ty-org">TMC Ganesh Union</div>
-    <div class="ty-details">
-      <div class="ty-row"><span data-en="Donor" data-te="దాత">Donor</span><b id="tyName">—</b></div>
-      <div class="ty-row"><span data-en="Amount" data-te="మొత్తం">Amount</span><b id="tyAmount">—</b></div>
-      <div class="ty-row"><span data-en="Mobile" data-te="మొబైల్">Mobile</span><b id="tyMobile">—</b></div>
-      <div class="ty-row"><span data-en="Year" data-te="సంవత్సరం">Year</span><b id="tyYear">—</b></div>
+    <div id="tyCaptureArea">
+      <div class="om">🙏</div>
+      <h2 data-en="Thank You!" data-te="ధన్యవాదాలు!">Thank You!</h2>
+      <div class="ty-org">TMC Ganesh Union</div>
+      <div class="ty-details">
+        <div class="ty-row"><span data-en="Donor" data-te="దాత">Donor</span><b id="tyName">—</b></div>
+        <div class="ty-row"><span data-en="Amount" data-te="మొత్తం">Amount</span><b id="tyAmount">—</b></div>
+        <div class="ty-row"><span data-en="Mobile" data-te="మొబైల్">Mobile</span><b id="tyMobile">—</b></div>
+        <div class="ty-row"><span data-en="Ref. No." data-te="రిఫరెన్స్ నం.">Ref. No.</span><b id="tyRef">—</b></div>
+        <div class="ty-row"><span data-en="Year" data-te="సంవత్సరం">Year</span><b id="tyYear">—</b></div>
+      </div>
+      <p id="thankyouMsg" data-en="Ganapati Bappa Morya! Your contribution has been received." data-te="గణపతి బప్ప మోరియా! మీ విరాళం అందింది.">Ganapati Bappa Morya! Your contribution has been received.</p>
+      <div class="ty-quote" data-en="&quot;Wherever there is devotion, there Ganesha removes every obstacle.&quot;" data-te="&quot;భక్తి ఎక్కడ ఉంటే, అక్కడ గణేశుడు ప్రతి అడ్డంకిని తొలగిస్తాడు.&quot;">"Wherever there is devotion, there Ganesha removes every obstacle."</div>
+      <div class="ty-credit">Created by $urya Reddy</div>
     </div>
-    <p id="thankyouMsg" data-en="Ganapati Bappa Morya! Your contribution has been received." data-te="గణపతి బప్ప మోరియా! మీ విరాళం అందింది.">Ganapati Bappa Morya! Your contribution has been received.</p>
-    <div class="ty-quote" data-en="&quot;Wherever there is devotion, there Ganesha removes every obstacle.&quot;" data-te="&quot;భక్తి ఎక్కడ ఉంటే, అక్కడ గణేశుడు ప్రతి అడ్డంకిని తొలగిస్తాడు.&quot;">"Wherever there is devotion, there Ganesha removes every obstacle."</div>
-    <button class="close-btn" onclick="document.getElementById('thankyouOverlay').style.display='none'" data-en="Close" data-te="మూసివేయండి">Close</button>
+    <div class="ty-actions">
+      <button class="close-btn" onclick="document.getElementById('thankyouOverlay').style.display='none'" data-en="Close" data-te="మూసివేయండి">Close</button>
+      <button class="download-btn" id="downloadCardBtn" data-en="⬇️ Download" data-te="⬇️ డౌన్‌లోడ్">⬇️ Download</button>
+    </div>
   </div>
 </div>
 
@@ -989,12 +1018,20 @@
 
   setInterval(() => showSlide((slideIndex + 1) % slideEls.length), 4000);
 
-  // ---- Donors summary ----
-  // Note: since payments now go directly via UPI (no gateway), totals here
-  // need to be updated manually by the committee — see server.js if you'd
-  // like to log self-reported contributions for a running total instead.
-  document.getElementById("totalCollected").textContent = "0";
-  document.getElementById("totalContributors").textContent = "0";
+  // ---- Donors summary (pulls live totals from the backend) ----
+  function refreshDonorsSummary() {
+    fetch("/donations-summary")
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("totalCollected").textContent = data.totalCollected ?? "0";
+        document.getElementById("totalContributors").textContent = data.totalContributors ?? "0";
+      })
+      .catch(() => {
+        document.getElementById("totalCollected").textContent = "0";
+        document.getElementById("totalContributors").textContent = "0";
+      });
+  }
+  refreshDonorsSummary();
 
   // ---- Donation form: generate a UPI QR code for the entered amount ----
   const form = document.getElementById("donationForm");
@@ -1002,8 +1039,13 @@
   const errorMsg = document.getElementById("errorMsg");
   const qrOverlay = document.getElementById("qrOverlay");
   const paidBtn = document.getElementById("paidBtn");
+  const utrInput = document.getElementById("utrInput");
 
   let pendingDonor = null;
+
+  utrInput.addEventListener("input", () => {
+    paidBtn.disabled = utrInput.value.trim().length < 4;
+  });
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -1023,6 +1065,8 @@
     }
 
     pendingDonor = { name, phone, amount };
+    utrInput.value = "";
+    paidBtn.disabled = true;
 
     const upiString =
       `upi://pay?pa=${encodeURIComponent(UPI_ID)}` +
@@ -1041,16 +1085,43 @@
 
   paidBtn.addEventListener("click", () => {
     if (!pendingDonor) return;
+    const utr = utrInput.value.trim();
+    if (utr.length < 4) return; // safety check, button should already be disabled
+
+    pendingDonor.utr = utr;
     qrOverlay.style.display = "none";
+
+    // Log this as a self-reported contribution, with the UPI reference number,
+    // for the committee's record. Still worth cross-checking against your
+    // bank/UPI statement — this reference number is what makes that possible.
+    fetch("/donations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(pendingDonor),
+    })
+      .then(() => refreshDonorsSummary())
+      .catch((err) => console.error("Could not log donation:", err));
 
     document.getElementById("tyName").textContent = pendingDonor.name;
     document.getElementById("tyAmount").textContent = `₹${pendingDonor.amount}`;
     document.getElementById("tyMobile").textContent = pendingDonor.phone;
+    document.getElementById("tyRef").textContent = pendingDonor.utr;
     document.getElementById("tyYear").textContent = new Date().getFullYear();
     document.getElementById("thankyouOverlay").style.display = "flex";
 
     form.reset();
     pendingDonor = null;
+  });
+
+  // ---- Download the thank-you card as an image ----
+  document.getElementById("downloadCardBtn").addEventListener("click", () => {
+    const card = document.getElementById("tyCaptureArea");
+    html2canvas(card, { backgroundColor: "#ffffff", scale: 2 }).then((canvas) => {
+      const link = document.createElement("a");
+      link.download = "TMC_Ganesh_Union_Thank_You.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
   });
 </script>
 
