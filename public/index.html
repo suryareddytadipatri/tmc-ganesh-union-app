@@ -319,6 +319,15 @@
   .stat-box .stat-label { font-size: 11px; color: #8A7A6D; margin-top: 2px; }
   .donor-note { font-size: 12px; color: #8A7A6D; line-height: 1.5; }
 
+  .donor-list { display: flex; flex-direction: column; gap: 6px; max-height: 320px; overflow-y: auto; }
+  .donor-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #FBF1E1; border-radius: 10px; padding: 9px 12px;
+  }
+  .donor-row .d-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .donor-row .d-amount { font-size: 13px; font-weight: 700; color: var(--green); }
+  .donor-empty { text-align: center; font-size: 12.5px; color: #9A8A7C; padding: 16px 0; }
+
   /* ---------- Committee Members: message/chat-list style rows ---------- */
   .committee-list {
     display: flex;
@@ -875,7 +884,9 @@
           <div class="stat-label" data-en="Contributors" data-te="దాతలు">Contributors</div>
         </div>
       </div>
-      <div class="donor-note" data-en="Individual donor names can be published here by the committee once collection is complete, with each contributor's consent." data-te="సేకరణ పూర్తయ్యాక, ప్రతి దాత అనుమతితో, వ్యక్తిగత దాతల పేర్లు ఇక్కడ కమిటీ ప్రచురించవచ్చు.">Individual donor names can be published here by the committee once collection is complete, with each contributor's consent.</div>
+      <div class="donor-list" id="donorList">
+        <div class="donor-empty" id="donorEmptyMsg" data-en="No contributions yet — be the first!" data-te="ఇంకా విరాళాలు రాలేదు — మొదటివారు మీరే అవ్వండి!">No contributions yet — be the first!</div>
+      </div>
     </div>
 
     <div class="section" id="about">
@@ -1030,7 +1041,33 @@
         document.getElementById("totalCollected").textContent = "0";
         document.getElementById("totalContributors").textContent = "0";
       });
+
+    fetch("/donors-public")
+      .then((res) => res.json())
+      .then((list) => {
+        const donorList = document.getElementById("donorList");
+        const emptyMsg = document.getElementById("donorEmptyMsg");
+        if (!Array.isArray(list) || list.length === 0) {
+          donorList.innerHTML = "";
+          donorList.appendChild(emptyMsg);
+          return;
+        }
+        donorList.innerHTML = list
+          .map(
+            (d) =>
+              `<div class="donor-row"><span class="d-name">${escapeHtml(d.name)}</span><span class="d-amount">₹${d.amount}</span></div>`
+          )
+          .join("");
+      })
+      .catch(() => {});
   }
+
+  function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
   refreshDonorsSummary();
 
   // ---- Donation form: generate a UPI QR code for the entered amount ----
