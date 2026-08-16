@@ -77,6 +77,14 @@ app.get("/donations-summary", (req, res) => {
   });
 });
 
+// ---- Public donor list: name + amount only (no phone/UTR — those stay private) ----
+app.get("/donors-public", (req, res) => {
+  const list = donations
+    .map((d) => ({ name: d.name, amount: d.amount }))
+    .reverse(); // most recent first
+  res.json(list);
+});
+
 // ---- Committee-only: full list, protected by a simple admin key ----
 // Visit: https://your-app-url.com/donations?key=YOUR_ADMIN_KEY
 app.get("/donations", (req, res) => {
