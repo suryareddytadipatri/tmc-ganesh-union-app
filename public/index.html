@@ -471,12 +471,21 @@
   }
   .qr-title { font-family: 'Yatra One', serif; font-size: 20px; color: var(--sindoor); }
   .qr-sub { font-size: 12px; color: #8A7A6D; margin-bottom: 14px; }
-  .qr-card img { width: 200px; height: 200px; border-radius: 12px; border: 1px solid #F0DFC4; margin: 0 auto; display: block; }
-  .qr-amount { font-size: 24px; font-weight: 700; color: var(--sindoor); margin: 12px 0 2px; }
-  .qr-vpa { font-size: 12px; color: #8A7A6D; margin-bottom: 16px; word-break: break-all; }
+  .qr-amount { font-size: 28px; font-weight: 700; color: var(--sindoor); margin: 4px 0 14px; }
+  .qr-vpa-box {
+    background: #FBF1E1; border-radius: 12px; padding: 12px 14px; margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  .qr-vpa-box .vpa-text { text-align: left; }
+  .qr-vpa-box .vpa-label { font-size: 10.5px; color: #8A7A6D; }
+  .qr-vpa-box .vpa-value { font-size: 13.5px; font-weight: 700; color: var(--ink); word-break: break-all; }
+  .copy-btn {
+    background: var(--green); color: #fff; border: none; padding: 8px 12px; border-radius: 8px;
+    font-size: 11px; font-weight: 700; cursor: pointer; flex-shrink: 0;
+  }
   .upi-app-btn {
     display: block; background: var(--gold); color: var(--ink); text-decoration: none;
-    font-weight: 700; padding: 12px; border-radius: 10px; font-size: 14px; margin-bottom: 14px;
+    font-weight: 700; padding: 13px; border-radius: 10px; font-size: 15px; margin-bottom: 14px;
   }
   .utr-field { text-align: left; margin-bottom: 12px; }
   .utr-field label { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
@@ -929,11 +938,16 @@
 <div class="qr-overlay" id="qrOverlay">
   <div class="qr-card">
     <button class="qr-close" onclick="document.getElementById('qrOverlay').style.display='none'">×</button>
-    <div class="qr-title" data-en="Scan &amp; Pay" data-te="స్కాన్ చేసి చెల్లించండి">Scan &amp; Pay</div>
+    <div class="qr-title" data-en="Pay via UPI" data-te="UPI ద్వారా చెల్లించండి">Pay via UPI</div>
     <div class="qr-sub">TMC Ganesh Union</div>
-    <img id="qrImage" src="" alt="UPI QR Code" />
     <div class="qr-amount">₹<span id="qrAmount"></span></div>
-    <div class="qr-vpa">UPI ID: 9347763218@kotakbank</div>
+    <div class="qr-vpa-box">
+      <div class="vpa-text">
+        <div class="vpa-label" data-en="UPI ID" data-te="UPI ID">UPI ID</div>
+        <div class="vpa-value">9347763218@kotakbank</div>
+      </div>
+      <button class="copy-btn" id="copyVpaBtn" data-en="Copy" data-te="కాపీ">Copy</button>
+    </div>
     <a id="upiAppLink" class="upi-app-btn" href="#" data-en="📲 Pay via UPI App" data-te="📲 UPI యాప్‌తో చెల్లించండి">📲 Pay via UPI App</a>
     <div class="utr-field">
       <label for="utrInput" data-en="UPI Transaction ID / Reference No." data-te="UPI ట్రాన్సాక్షన్ ID / రిఫరెన్స్ నంబర్">UPI Transaction ID / Reference No.</label>
@@ -941,7 +955,7 @@
       <div class="utr-hint" data-en="After paying, your UPI app shows this number (UTR / Ref No.) on the payment success screen — enter it here to get your thank-you card." data-te="పేమెంట్ చేశాక, మీ UPI యాప్ ఈ నంబర్ (UTR / Ref No.) success screen పై చూపిస్తుంది — thank-you card కోసం దాన్ని ఇక్కడ enter చేయండి.">After paying, your UPI app shows this number (UTR / Ref No.) on the payment success screen — enter it here to get your thank-you card.</div>
     </div>
     <button class="paid-btn" id="paidBtn" disabled data-en="✅ Submit &amp; Get Thank-You Card" data-te="✅ సమర్పించి Thank-You Card పొందండి">✅ Submit &amp; Get Thank-You Card</button>
-    <div class="qr-note" data-en="Scan this QR with any UPI app (PhonePe, GPay, Paytm, etc.) or tap the button above on your phone." data-te="ఈ QR ని ఏదైనా UPI యాప్‌తో (PhonePe, GPay, Paytm) స్కాన్ చేయండి, లేదా మీ ఫోన్‌లో పైన ఉన్న బటన్ నొక్కండి.">Scan this QR with any UPI app (PhonePe, GPay, Paytm, etc.) or tap the button above on your phone.</div>
+    <div class="qr-note" data-en="Tap 'Pay via UPI App' to open PhonePe, GPay, Paytm, or your bank app directly. If it doesn't open, copy the UPI ID above and pay manually from your UPI app." data-te="'Pay via UPI App' నొక్కితే PhonePe, GPay, Paytm, లేదా మీ బ్యాంక్ యాప్ నేరుగా తెరుచుకుంటుంది. అది open కాకపోతే, పైన ఉన్న UPI ID copy చేసి, మీ UPI యాప్ నుండి manual గా pay చేయండి.">Tap 'Pay via UPI App' to open PhonePe, GPay, Paytm, or your bank app directly. If it doesn't open, copy the UPI ID above and pay manually from your UPI app.</div>
   </div>
 </div>
 
@@ -1108,16 +1122,23 @@
     const upiString =
       `upi://pay?pa=${encodeURIComponent(UPI_ID)}` +
       `&pn=${encodeURIComponent(UPI_PAYEE_NAME)}` +
-      `&am=${amount}` +
+      `&am=${amount.toFixed(2)}` +
       `&cu=INR` +
       `&tn=${encodeURIComponent("Vinayaka Chaturthi Contribution")}`;
 
-    document.getElementById("qrImage").src =
-      `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(upiString)}`;
     document.getElementById("qrAmount").textContent = amount;
     document.getElementById("upiAppLink").href = upiString;
 
     qrOverlay.style.display = "flex";
+  });
+
+  document.getElementById("copyVpaBtn").addEventListener("click", () => {
+    navigator.clipboard.writeText(UPI_ID).then(() => {
+      const btn = document.getElementById("copyVpaBtn");
+      const original = btn.textContent;
+      btn.textContent = currentLang === "te" ? "అయ్యింది!" : "Copied!";
+      setTimeout(() => (btn.textContent = original), 1500);
+    });
   });
 
   paidBtn.addEventListener("click", () => {
