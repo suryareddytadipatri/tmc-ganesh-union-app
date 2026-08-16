@@ -1,125 +1,106 @@
-// TMC Ganesh Union — donation collection backend (Node.js + Express + Razorpay)
-// Flow: client sends {name, phone, amount} -> we create a Razorpay order ->
-// client completes payment -> Razorpay webhook confirms it -> we mark it paid.
-// Replace the in-memory `donations` array with a real database before going live.
+// TMC Ganesh Union — server (Node.js + Express)
+// Payments now happen directly via UPI (no gateway, no fees). This backend's
+// only job is to keep a simple record of contributions for the committee:
+// each donor self-reports after paying via the UPI QR, and that gets logged
+// here so the site can show a running total and the committee has a list.
+//
+// IMPORTANT: this is a self-reported record, not a verified payment log
+// (there's no gateway to confirm the money actually arrived). Cross-check
+// against your bank/UPI app statement periodically — see GET /donations-export.
 
 const express = require("express");
-const crypto = require("crypto");
-const Razorpay = require("razorpay");
+const fs = require("fs");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
-
-// Webhook route needs the raw body for signature verification —
-// must be registered BEFORE express.json().
-app.post(
-  "/webhook/razorpay",
-  express.raw({ type: "application/json" }),
-  (req, res) => {
-    const signature = req.headers["x-razorpay-signature"];
-    const expected = crypto
-      .createHmac("sha256", process.env.RAZORPAY_WEBHOOK_SECRET)
-      .update(req.body)
-      .digest("hex");
-
-    if (signature !== expected) {
-      return res.status(400).send("Invalid signature");
-    }
-
-    const event = JSON.parse(req.body.toString());
-
-    if (event.event === "payment.captured") {
-      const razorpayOrderId = event.payload.payment.entity.order_id;
-      const donation = donations.find((d) => d.razorpayOrderId === razorpayOrderId);
-      if (donation) {
-        donation.status = "paid";
-        console.log(`Donation ${donation.id} from ${donation.name} marked as paid (₹${donation.amount}).`);
-        // TODO: send a WhatsApp/SMS thank-you receipt here, or log to a sheet/DB
-      }
-    }
-
-    res.status(200).send("ok");
-  }
-);
-
 app.use(express.json());
-
-// Serve the frontend (public/index.html + any assets) from the same app,
-// so there's no separate frontend deployment or CORS to manage.
 app.use(express.static("public"));
 
-// ---- "Database" (replace with a real DB table) ----
-let donations = []; // { id, name, phone, amount, status, razorpayOrderId }
-let nextId = 1;
+const DATA_FILE = path.join(__dirname, "donations.json");
 
-const MIN_AMOUNT = 10; // rupees
-const MAX_AMOUNT = 100000; // sanity cap, adjust as needed
-
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
-
-// ---- Create a donation order ----
-app.post("/donations", async (req, res) => {
-  try {
-    const { name, phone, amount } = req.body;
-
-    if (!name || !phone || !amount) {
-      return res.status(400).json({ error: "Name, phone, and amount are required." });
-    }
-    const amt = Number(amount);
-    if (!Number.isFinite(amt) || amt < MIN_AMOUNT || amt > MAX_AMOUNT) {
-      return res.status(400).json({ error: `Amount must be between ₹${MIN_AMOUNT} and ₹${MAX_AMOUNT}.` });
-    }
-
-    const razorpayOrder = await razorpay.orders.create({
-      amount: Math.round(amt * 100), // paise
-      currency: "INR",
-      receipt: `donation_${nextId}`,
-    });
-
-    const donation = {
-      id: nextId++,
-      name,
-      phone,
-      amount: amt,
-      status: "pending",
-      razorpayOrderId: razorpayOrder.id,
-    };
-    donations.push(donation);
-
-    res.json({
-      donationId: donation.id,
-      razorpayOrderId: razorpayOrder.id,
-      amount: amt,
-      currency: "INR",
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ error: err.message });
+// ---- Load existing records from disk on startup (survives restarts within
+// the same deploy; a fresh deploy on some hosts may reset this — export
+// regularly via /donations-export if you want a permanent backup). ----
+let donations = [];
+try {
+  if (fs.existsSync(DATA_FILE)) {
+    donations = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
   }
+} catch (err) {
+  console.error("Could not read donations.json, starting fresh.", err);
+}
+
+function save() {
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(donations, null, 2));
+  } catch (err) {
+    console.error("Could not save donations.json", err);
+  }
+}
+
+const MIN_AMOUNT = 10;
+const MAX_AMOUNT = 100000;
+
+// ---- Log a self-reported contribution (called when someone submits their UTR) ----
+app.post("/donations", (req, res) => {
+  const { name, phone, amount, utr } = req.body;
+
+  if (!name || !phone || !amount || !utr) {
+    return res.status(400).json({ error: "Name, phone, amount, and UPI reference number are required." });
+  }
+  const amt = Number(amount);
+  if (!Number.isFinite(amt) || amt < MIN_AMOUNT || amt > MAX_AMOUNT) {
+    return res.status(400).json({ error: `Amount must be between ₹${MIN_AMOUNT} and ₹${MAX_AMOUNT}.` });
+  }
+
+  const record = {
+    id: donations.length + 1,
+    name: String(name).slice(0, 100),
+    phone: String(phone).slice(0, 15),
+    amount: amt,
+    utr: String(utr).slice(0, 40),
+    status: "self-reported",
+    timestamp: new Date().toISOString(),
+  };
+  donations.push(record);
+  save();
+
+  res.json({ ok: true, id: record.id });
 });
 
-// ---- Check a donation's status ----
-app.get("/donations/:id", (req, res) => {
-  const donation = donations.find((d) => d.id === Number(req.params.id));
-  if (!donation) return res.status(404).json({ error: "Donation not found" });
-  res.json(donation);
-});
-
-// ---- Simple totals view for the committee ----
+// ---- Public summary: total collected + contributor count (no names) ----
 app.get("/donations-summary", (req, res) => {
-  const paid = donations.filter((d) => d.status === "paid");
   res.json({
-    totalCollected: paid.reduce((s, d) => s + d.amount, 0),
-    totalContributors: paid.length,
-    pending: donations.filter((d) => d.status === "pending").length,
+    totalCollected: donations.reduce((sum, d) => sum + d.amount, 0),
+    totalContributors: donations.length,
   });
 });
 
-// Fallback: any non-API route serves the app itself (mobile browsers
-// bookmarking or refreshing on "/" land on the page correctly).
+// ---- Committee-only: full list, protected by a simple admin key ----
+// Visit: https://your-app-url.com/donations?key=YOUR_ADMIN_KEY
+app.get("/donations", (req, res) => {
+  if (!process.env.ADMIN_KEY || req.query.key !== process.env.ADMIN_KEY) {
+    return res.status(401).json({ error: "Unauthorized. Add ?key=YOUR_ADMIN_KEY to the URL." });
+  }
+  res.json(donations);
+});
+
+// ---- Committee-only: download all records as CSV for backup/reconciliation ----
+// Visit: https://your-app-url.com/donations-export?key=YOUR_ADMIN_KEY
+app.get("/donations-export", (req, res) => {
+  if (!process.env.ADMIN_KEY || req.query.key !== process.env.ADMIN_KEY) {
+    return res.status(401).send("Unauthorized. Add ?key=YOUR_ADMIN_KEY to the URL.");
+  }
+  const header = "id,name,phone,amount,utr,status,timestamp\n";
+  const rows = donations
+    .map((d) => `${d.id},"${d.name}",${d.phone},${d.amount},${d.utr || ""},${d.status},${d.timestamp}`)
+    .join("\n");
+  res.setHeader("Content-Type", "text/csv");
+  res.setHeader("Content-Disposition", "attachment; filename=donations.csv");
+  res.send(header + rows);
+});
+
 app.get("/", (req, res) => {
   res.sendFile("index.html", { root: "public" });
 });
