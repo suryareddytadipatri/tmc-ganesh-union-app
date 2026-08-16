@@ -10,9 +10,8 @@
 <meta name="apple-mobile-web-app-title" content="Ganesh Union" />
 <link rel="manifest" href="/manifest.json" />
 <title>TMC Ganesh Union — Vinayaka Chaturthi Celebrations (2026)</title>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Yatra+One&family=Poppins:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Yatra+One&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap');
 
   :root {
     --sindoor: #A13D2B;
@@ -29,7 +28,7 @@
 
   body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', 'Noto Sans Telugu', sans-serif;
     background: var(--cream);
     color: var(--ink);
     display: flex;
@@ -72,16 +71,34 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px clamp(16px, 5vw, 24px);
+    gap: 8px;
   }
 
   .nav-logo {
     font-family: 'Yatra One', serif;
-    font-size: 16px;
+    font-size: 15px;
     color: var(--sindoor);
     display: flex;
     align-items: center;
     gap: 6px;
+    min-width: 0;
   }
+
+  .nav-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+  .lang-btn {
+    background: #FBF1E1;
+    border: 1.5px solid var(--gold);
+    color: var(--sindoor);
+    font-weight: 700;
+    font-size: 11.5px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .lang-btn:active { background: #F4E3C9; }
 
   .hamburger {
     background: none;
@@ -89,7 +106,7 @@
     font-size: 22px;
     color: var(--sindoor);
     cursor: pointer;
-    padding: 6px 8px;
+    padding: 6px 4px;
     line-height: 1;
   }
 
@@ -100,7 +117,7 @@
     background: #FBF1E1;
   }
 
-  .nav-links.open { max-height: 280px; overflow-y: auto; }
+  .nav-links.open { max-height: 320px; overflow-y: auto; }
 
   .nav-links a {
     display: block;
@@ -144,7 +161,7 @@
 
   .festival-title {
     font-family: 'Yatra One', serif;
-    font-size: clamp(16px, 4.5vw, 21px);
+    font-size: clamp(15px, 4.3vw, 20px);
     margin-top: 14px;
     color: var(--gold);
     line-height: 1.4;
@@ -176,10 +193,10 @@
   .slide .slide-icon { font-size: clamp(30px, 8vw, 40px); margin-bottom: 8px; }
   .slide .slide-title {
     font-family: 'Yatra One', serif;
-    font-size: clamp(16px, 4.5vw, 20px);
+    font-size: clamp(15px, 4.2vw, 19px);
     margin-bottom: 4px;
   }
-  .slide .slide-sub { font-size: clamp(12px, 3.2vw, 13px); opacity: 0.95; line-height: 1.4; }
+  .slide .slide-sub { font-size: clamp(11.5px, 3vw, 13px); opacity: 0.95; line-height: 1.4; }
 
   .slide-1 { background: linear-gradient(135deg, #A13D2B, #C9683F); }
   .slide-2 { background: linear-gradient(135deg, #2F5233, #4A7A52); }
@@ -217,7 +234,7 @@
 
   .section-title {
     font-family: 'Yatra One', serif;
-    font-size: 18px;
+    font-size: 17px;
     color: var(--sindoor);
     margin: 0 0 12px;
   }
@@ -246,7 +263,7 @@
     border-radius: 10px;
     border: 1.5px solid #E7D8C2;
     font-size: 16px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', 'Noto Sans Telugu', sans-serif;
     background: #FFFDF9;
     color: var(--ink);
     min-height: 48px;
@@ -264,7 +281,7 @@
   .contribute-btn {
     width: 100%; padding: 15px; border: none; border-radius: 12px;
     background: var(--gold); color: var(--ink); font-size: 16px; font-weight: 700;
-    font-family: 'Poppins', sans-serif; cursor: pointer; margin-top: 6px;
+    font-family: 'Poppins', 'Noto Sans Telugu', sans-serif; cursor: pointer; margin-top: 6px;
     min-height: 50px; transition: transform 0.15s ease;
   }
   .contribute-btn:active { transform: scale(0.98); }
@@ -314,14 +331,13 @@
     gap: 12px;
     background: #FBF1E1;
     border-radius: 16px;
-    border-top-left-radius: 4px; /* chat-bubble notch feel */
+    border-top-left-radius: 4px;
     padding: 8px 14px 8px 8px;
     border: 2.5px solid transparent;
     background-clip: padding-box, border-box;
     background-origin: padding-box, border-box;
   }
 
-  /* Disco-style multi-colour gradient borders, cycling every 6 rows */
   .member-row:nth-child(6n+1) {
     background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #FF3D7F, #FFC93D, #3DDCFF, #7B4EA3);
   }
@@ -349,7 +365,6 @@
     padding: 2.5px;
   }
 
-  /* Six rotating border colour combos, cycling every 6 rows */
   .member-row:nth-child(6n+1) .member-photo-wrap { background: linear-gradient(135deg, var(--gold), var(--sindoor)); }
   .member-row:nth-child(6n+2) .member-photo-wrap { background: linear-gradient(135deg, #2F5233, #6FA37A); }
   .member-row:nth-child(6n+3) .member-photo-wrap { background: linear-gradient(135deg, #7B4EA3, #C084E8); }
@@ -407,6 +422,13 @@
   .disco-5 { background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #3DFFD9, #C0FF3D, #FF6A3D, #C084E8); }
   .disco-6 { background-image: linear-gradient(#FBF1E1, #FBF1E1), linear-gradient(90deg, #FF3D3D, #FFDD3D, #3DFF7A, #3D9FFF, #C043FF); }
 
+  /* Thick static-colour borders for About / Contact cards */
+  .thick-border { border-width: 3.5px; border-style: solid; }
+  .border-instagram { border-color: #E1306C; }
+  .border-whatsapp { border-color: #25D366; }
+  .border-facebook { border-color: #1877F2; }
+  .border-call { border-color: var(--sindoor); }
+
   /* Contact */
   .contact-card {
     display: flex; align-items: center; gap: 12px; background: #FBF1E1;
@@ -424,6 +446,34 @@
 
   .footer .credit { margin-top: 6px; font-size: 10px; opacity: 0.7; font-style: italic; }
 
+  /* ---------- UPI QR payment modal ---------- */
+  .qr-overlay {
+    position: fixed; inset: 0; background: rgba(59, 36, 29, 0.6);
+    display: none; align-items: center; justify-content: center; z-index: 55; padding: 16px;
+  }
+  .qr-card {
+    background: #fff; border-radius: 22px; padding: 26px 22px 22px; max-width: 340px; width: 100%;
+    text-align: center; position: relative;
+  }
+  .qr-close {
+    position: absolute; top: 12px; right: 14px; background: none; border: none;
+    font-size: 22px; color: #9A8A7C; cursor: pointer; line-height: 1;
+  }
+  .qr-title { font-family: 'Yatra One', serif; font-size: 20px; color: var(--sindoor); }
+  .qr-sub { font-size: 12px; color: #8A7A6D; margin-bottom: 14px; }
+  .qr-card img { width: 200px; height: 200px; border-radius: 12px; border: 1px solid #F0DFC4; margin: 0 auto; display: block; }
+  .qr-amount { font-size: 24px; font-weight: 700; color: var(--sindoor); margin: 12px 0 2px; }
+  .qr-vpa { font-size: 12px; color: #8A7A6D; margin-bottom: 16px; word-break: break-all; }
+  .upi-app-btn {
+    display: block; background: var(--gold); color: var(--ink); text-decoration: none;
+    font-weight: 700; padding: 12px; border-radius: 10px; font-size: 14px; margin-bottom: 10px;
+  }
+  .paid-btn {
+    display: block; width: 100%; background: var(--green); color: #fff; border: none;
+    padding: 12px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; margin-bottom: 12px;
+  }
+  .qr-note { font-size: 11px; color: #9A8A7C; line-height: 1.5; }
+
   .thankyou-overlay {
     position: fixed; inset: 0; background: rgba(59, 36, 29, 0.55);
     display: none; align-items: center; justify-content: center; z-index: 50; padding: 16px;
@@ -438,6 +488,7 @@
   .ty-row span { color: #8A7A6D; }
   .ty-row b { color: var(--ink); }
   .thankyou-card p { font-size: 13px; color: #5A443C; line-height: 1.5; }
+  .ty-quote { font-size: 12px; color: var(--sindoor); font-style: italic; margin-top: 10px; line-height: 1.5; }
   .close-btn {
     margin-top: 14px; background: var(--green); color: #fff; border: none;
     padding: 12px 22px; border-radius: 10px; font-weight: 600; cursor: pointer; min-height: 44px;
@@ -457,45 +508,48 @@
   <nav class="topnav">
     <div class="nav-inner">
       <span class="nav-logo">🕉️ TMC Ganesh Union</span>
-      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
+      <div class="nav-right">
+        <button class="lang-btn" id="langToggleBtn">తెలుగు</button>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
+      </div>
     </div>
     <div class="nav-links" id="navLinks">
-      <a href="#home">Home</a>
-      <a href="#events">Events</a>
-      <a href="#committee">Committee Members</a>
-      <a href="#donors">Donors List</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+      <a href="#home" data-en="Home" data-te="హోమ్">Home</a>
+      <a href="#events" data-en="Events" data-te="ఈవెంట్స్">Events</a>
+      <a href="#committee" data-en="Committee Members" data-te="కమిటీ సభ్యులు">Committee Members</a>
+      <a href="#donors" data-en="Donors List" data-te="దాతల జాబితా">Donors List</a>
+      <a href="#about" data-en="About" data-te="మా గురించి">About</a>
+      <a href="#contact" data-en="Contact" data-te="సంప్రదించండి">Contact</a>
     </div>
   </nav>
 
   <div class="hero" id="home">
     <div class="om">🕉️</div>
     <div class="org-name">TMC Ganesh Union</div>
-    <div class="tagline">Kotla veedhi Ganesh Community</div>
-    <div class="festival-title">🐘 Vinayaka Chaturthi Celebrations (2026) 🌸</div>
+    <div class="tagline" data-en="Kotla veedhi Ganesh Community" data-te="కోట్ల వీధి గణేష్ కమ్యూనిటీ">Kotla veedhi Ganesh Community</div>
+    <div class="festival-title">🐘 <span data-en="Vinayaka Chaturthi Celebrations (2026)" data-te="వినాయక చవితి వేడుకలు (2026)">Vinayaka Chaturthi Celebrations (2026)</span> 🌸</div>
   </div>
 
   <div class="slides" id="slides">
     <div class="slide slide-1 active">
       <div class="slide-icon">🙏</div>
-      <div class="slide-title">Ganapati Bappa Morya!</div>
-      <div class="slide-sub">Welcoming Bappa home with our community's love</div>
+      <div class="slide-title" data-en="Ganapati Bappa Morya!" data-te="గణపతి బప్ప మోరియా!">Ganapati Bappa Morya!</div>
+      <div class="slide-sub" data-en="Welcoming Bappa home with our community's love" data-te="మన కమ్యూనిటీ ప్రేమతో బప్పను స్వాగతిస్తున్నాం">Welcoming Bappa home with our community's love</div>
     </div>
     <div class="slide slide-2">
       <div class="slide-icon">📅</div>
-      <div class="slide-title">Celebrations Begin Soon</div>
-      <div class="slide-sub">(Kotla Veedhi Ganesh Celebrations September 14th to 16th)</div>
+      <div class="slide-title" data-en="Celebrations Begin Soon" data-te="వేడుకలు త్వరలో ప్రారంభం">Celebrations Begin Soon</div>
+      <div class="slide-sub" data-en="(Kotla Veedhi Ganesh Celebrations September 14th to 16th)" data-te="(కోట్ల వీధి గణేష్ వేడుకలు సెప్టెంబర్ 14 నుండి 16 వరకు)">(Kotla Veedhi Ganesh Celebrations September 14th to 16th)</div>
     </div>
     <div class="slide slide-3">
       <div class="slide-icon">💰</div>
-      <div class="slide-title">Every Contribution Counts</div>
-      <div class="slide-sub">Big or small, your support keeps our traditions alive</div>
+      <div class="slide-title" data-en="Every Contribution Counts" data-te="ప్రతి విరాళం ముఖ్యమే">Every Contribution Counts</div>
+      <div class="slide-sub" data-en="Big or small, your support keeps our traditions alive" data-te="పెద్దదైనా చిన్నదైనా, మీ మద్దతు మన సంప్రదాయాలను నిలబెడుతుంది">Big or small, your support keeps our traditions alive</div>
     </div>
     <div class="slide slide-4">
       <div class="slide-icon">🎉</div>
-      <div class="slide-title">A Festival for Everyone</div>
-      <div class="slide-sub">Join us for pooja, prasadam, and community celebration</div>
+      <div class="slide-title" data-en="A Festival for Everyone" data-te="అందరికీ ఒక పండుగ">A Festival for Everyone</div>
+      <div class="slide-sub" data-en="Join us for pooja, prasadam, and community celebration" data-te="పూజ, ప్రసాదం మరియు కమ్యూనిటీ వేడుకలలో పాల్గొనండి">Join us for pooja, prasadam, and community celebration</div>
     </div>
     <div class="slide-dots" id="slideDots"></div>
   </div>
@@ -506,60 +560,70 @@
 
     <div class="section" id="contribute-section">
       <div class="about">
-        <b>Ganapati Bappa Morya!</b> This year's Vinayaka Chaturthi celebrations —
-        pandal setup, decorations, daily pooja, prasadam, and visarjan — are made
-        possible by contributions from our community. Every amount, big or
-        small, helps. <br><br>
-        <em><centre>!! Ganapthi Bappa Moriya !!</centre></em>
+        <b data-en="Ganapati Bappa Morya!" data-te="గణపతి బప్ప మోరియా!">Ganapati Bappa Morya!</b>
+        <span data-en=" This year's Vinayaka Chaturthi celebrations — pandal setup, decorations, daily pooja, prasadam, and visarjan — are made possible by contributions from our community. Every amount, big or small, helps." data-te=" ఈ సంవత్సరం వినాయక చవితి వేడుకలు — పందిరి ఏర్పాటు, అలంకరణలు, రోజువారీ పూజ, ప్రసాదం, మరియు నిమజ్జనం — మన కమ్యూనిటీ విరాళాల వల్లే సాధ్యమవుతున్నాయి. ప్రతి మొత్తం, పెద్దదైనా చిన్నదైనా, సహాయపడుతుంది.">This year's Vinayaka Chaturthi celebrations — pandal setup, decorations, daily pooja, prasadam, and visarjan — are made possible by contributions from our community. Every amount, big or small, helps.</span>
+        <br><br>
+        <em data-en="(!! Ganapthi Bappa Moriya !!)" data-te="(!! గణపతి బప్ప మోరియా !!)">(!! Ganapthi Bappa Moriya !!)</em>
       </div>
 
       <form id="donationForm">
         <div class="field">
-          <label for="name">Your Name</label>
-          <input type="text" id="name" placeholder="e.g. Ravindra Reddy" required />
+          <label for="name" data-en="Your Name" data-te="మీ పేరు">Your Name</label>
+          <input type="text" id="name" placeholder="e.g. Ravindra Reddy" data-en="e.g. Ravindra Reddy" data-te="ఉదా: రవీంద్ర రెడ్డి" required />
         </div>
         <div class="field">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" inputmode="numeric" placeholder="10-digit mobile number" pattern="[0-9]{10}" required />
+          <label for="phone" data-en="Phone Number" data-te="ఫోన్ నంబర్">Phone Number</label>
+          <input type="tel" id="phone" inputmode="numeric" placeholder="10-digit mobile number" data-en="10-digit mobile number" data-te="10-అంకెల మొబైల్ నంబర్" pattern="[0-9]{10}" required />
         </div>
         <div class="field">
-          <label for="amount">Contribution Amount</label>
+          <label for="amount" data-en="Contribution Amount" data-te="విరాళం మొత్తం">Contribution Amount</label>
           <div class="amount-wrap">
             <span>₹</span>
-            <input type="number" id="amount" inputmode="numeric" placeholder="Enter any amount" min="10" required />
+            <input type="number" id="amount" inputmode="numeric" placeholder="Enter any amount" data-en="Enter any amount" data-te="ఏదైనా మొత్తం నమోదు చేయండి" min="10" required />
           </div>
         </div>
-        <button type="submit" class="contribute-btn" id="payBtn">Contribute Now</button>
+        <button type="submit" class="contribute-btn" id="payBtn" data-en="Contribute Now" data-te="విరాళం ఇవ్వండి">Contribute Now</button>
         <div class="error-msg" id="errorMsg"></div>
-        <div class="secure-note">🔒 Payments are processed securely via Razorpay and settle directly to TMC Ganesh Union's registered bank account.</div>
+        <div class="secure-note" data-en="🔒 Payments are processed securely via Razorpay and settle directly to TMC Ganesh Union's registered bank account." data-te="🔒 చెల్లింపులు Razorpay ద్వారా సురక్షితంగా ప్రాసెస్ చేయబడి, నేరుగా TMC Ganesh Union బ్యాంక్ ఖాతాకు జమ అవుతాయి.">🔒 Payments are processed securely via Razorpay and settle directly to TMC Ganesh Union's registered bank account.</div>
       </form>
 
       <div class="diya-row">🪔 🪔 🪔 🪔 🪔</div>
     </div>
 
     <div class="section" id="events">
-      <div class="section-title">📅 Events Schedule</div>
+      <div class="section-title">📅 <span data-en="Events Schedule" data-te="ఈవెంట్స్ షెడ్యూల్">Events Schedule</span></div>
       <div class="event-item">
-        <div class="event-date">Day&nbsp;1</div>
-        <div class="event-info"><b>Ganesh Sthapana</b><span>Morning pooja and idol installation (14th Sept 8:00 AM Onwards)</span></div>
+        <div class="event-date" data-en="Day 1" data-te="1వ రోజు">Day&nbsp;1</div>
+        <div class="event-info">
+          <b data-en="Ganesh Sthapana" data-te="గణేష్ స్థాపన">Ganesh Sthapana</b>
+          <span data-en="Morning pooja and idol installation (14th Sept 8:00 AM Onwards)" data-te="ఉదయం పూజ మరియు విగ్రహ ప్రతిష్ఠ (సెప్టెంబర్ 14, ఉదయం 8:00 నుండి)">Morning pooja and idol installation (14th Sept 8:00 AM Onwards)</span>
+        </div>
       </div>
       <div class="event-item">
-        <div class="event-date">Day&nbsp;1</div>
-        <div class="event-info"><b>Cultural Evening</b><span>Community performances Day1(9:00PM - 1:00AM)</span></div>
+        <div class="event-date" data-en="Day 1" data-te="1వ రోజు">Day&nbsp;1</div>
+        <div class="event-info">
+          <b data-en="Cultural Evening" data-te="సాంస్కృతిక సాయంత్రం">Cultural Evening</b>
+          <span data-en="Community performances Day1 (9:00PM - 1:00AM)" data-te="కమ్యూనిటీ ప్రదర్శనలు 1వ రోజు (రాత్రి 9:00 - 1:00)">Community performances Day1(9:00PM - 1:00AM)</span>
+        </div>
       </div>
       <div class="event-item">
-        <div class="event-date">Day&nbsp;2</div>
-        <div class="event-info"><b>Cultural Evening 2</b><span>Community performances Day2 (9:00PM - 1:00AM)</span></div>
+        <div class="event-date" data-en="Day 2" data-te="2వ రోజు">Day&nbsp;2</div>
+        <div class="event-info">
+          <b data-en="Cultural Evening 2" data-te="సాంస్కృతిక సాయంత్రం 2">Cultural Evening 2</b>
+          <span data-en="Community performances Day2 (9:00PM - 1:00AM)" data-te="కమ్యూనిటీ ప్రదర్శనలు 2వ రోజు (రాత్రి 9:00 - 1:00)">Community performances Day2 (9:00PM - 1:00AM)</span>
+        </div>
       </div>
       <div class="event-item">
-        <div class="event-date">Day&nbsp;3</div>
-        <div class="event-info"><b>Visarjan</b><span>Procession and immersion (3:00PM - 7:00PM)</span></div>
+        <div class="event-date" data-en="Day 3" data-te="3వ రోజు">Day&nbsp;3</div>
+        <div class="event-info">
+          <b data-en="Visarjan" data-te="నిమజ్జనం">Visarjan</b>
+          <span data-en="Procession and immersion (3:00PM - 7:00PM)" data-te="ఊరేగింపు మరియు నిమజ్జనం (మధ్యాహ్నం 3:00 - 7:00)">Procession and immersion (3:00PM - 7:00PM)</span>
+        </div>
       </div>
-      <div class="donor-note" style="margin-top:10px;"></div>
     </div>
 
     <div class="section" id="committee">
-      <div class="section-title">🤝 Committee Members</div>
+      <div class="section-title">🤝 <span data-en="Committee Members" data-te="కమిటీ సభ్యులు">Committee Members</span></div>
       <div class="committee-list">
 
         <div class="member-row">
@@ -569,7 +633,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Karunakar Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919963437246">+91 99634 37246</a>
           </div>
         </div>
@@ -581,7 +645,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Sasidhar Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000002">+91 90000 00002</a>
           </div>
         </div>
@@ -593,7 +657,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Madhusudhan Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+917569880978">+91 75698 80978</a>
           </div>
         </div>
@@ -605,7 +669,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Sudarshan Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+916301764120">+91 63017 64120</a>
           </div>
         </div>
@@ -617,7 +681,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Ravindra Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+917997555414">+91 79975 55414</a>
           </div>
         </div>
@@ -629,7 +693,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Narendra Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000006">+91 90000 00006</a>
           </div>
         </div>
@@ -641,7 +705,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Subbarayudu</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000007">+91 90000 00007</a>
           </div>
         </div>
@@ -653,7 +717,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Sriram Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000008">+91 90000 00008</a>
           </div>
         </div>
@@ -665,7 +729,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Prakash</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000009">+91 90000 00009</a>
           </div>
         </div>
@@ -677,7 +741,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Sreenath Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000010">+91 90000 00010</a>
           </div>
         </div>
@@ -689,7 +753,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Venkata Ramana Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000011">+91 90000 00011</a>
           </div>
         </div>
@@ -701,7 +765,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Siva Kumar Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000012">+91 90000 00012</a>
           </div>
         </div>
@@ -713,7 +777,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Nagi Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000013">+91 90000 00013</a>
           </div>
         </div>
@@ -725,7 +789,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Yeswanth Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000014">+91 90000 00014</a>
           </div>
         </div>
@@ -737,7 +801,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Narasimha</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000015">+91 90000 00015</a>
           </div>
         </div>
@@ -749,7 +813,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Dheva Kesava Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000016">+91 90000 00016</a>
           </div>
         </div>
@@ -761,7 +825,7 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Pavan Kumar Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919000000017">+91 90000 00017</a>
           </div>
         </div>
@@ -773,88 +837,102 @@
           </div></div>
           <div class="member-info">
             <div class="member-name">Suryaprakash Reddy</div>
-            <div class="member-role">Committee Member</div>
+            <div class="member-role" data-en="Committee Member" data-te="కమిటీ సభ్యుడు">Committee Member</div>
             <a class="member-phone" href="tel:+919347763218">+91 93477 63218</a>
           </div>
         </div>
 
       </div>
-      <div class="donor-note" style="margin-top:12px;"><b><centre> !! Jai Bholo Ganesh Maharaj ki Jai !!</centre></b></div>
+      <div class="donor-note" style="margin-top:12px;" data-en="(Committee: replace phone numbers marked 90000 000XX with actual numbers, and add real photos — see instructions.)" data-te="(కమిటీ: 90000 000XX అని ఉన్న నంబర్లను అసలు నంబర్లతో మార్చండి, మరియు నిజమైన ఫోటోలు add చేయండి.)">(Committee: replace phone numbers marked 90000 000XX with actual numbers, and add real photos — see instructions.)</div>
     </div>
 
     <div class="section" id="donors">
-      <div class="section-title">🙏 Donors List</div>
+      <div class="section-title">🙏 <span data-en="Donors List" data-te="దాతల జాబితా">Donors List</span></div>
       <div class="donor-stats">
         <div class="stat-box disco-border disco-1">
           <div class="stat-num" id="totalCollected">—</div>
-          <div class="stat-label">Total Collected (₹)</div>
+          <div class="stat-label" data-en="Total Collected (₹)" data-te="మొత్తం సేకరణ (₹)">Total Collected (₹)</div>
         </div>
         <div class="stat-box disco-border disco-2">
           <div class="stat-num" id="totalContributors">—</div>
-          <div class="stat-label">Contributors</div>
+          <div class="stat-label" data-en="Contributors" data-te="దాతలు">Contributors</div>
         </div>
       </div>
-      <div class="donor-note">Individual donor names can be published here by the committee once collection is complete, with each contributor's consent.</div>
+      <div class="donor-note" data-en="Individual donor names can be published here by the committee once collection is complete, with each contributor's consent." data-te="సేకరణ పూర్తయ్యాక, ప్రతి దాత అనుమతితో, వ్యక్తిగత దాతల పేర్లు ఇక్కడ కమిటీ ప్రచురించవచ్చు.">Individual donor names can be published here by the committee once collection is complete, with each contributor's consent.</div>
     </div>
 
     <div class="section" id="about">
-      <div class="section-title">✨ About &amp; Follow Us</div>
-      <div class="about" style="margin-bottom:14px;">
-        TMC Ganesh Union is a community committee celebrating Vinayaka Chaturthi with pooja, cultural events, and prasadam for everyone in Kotla Veedhi. Follow us for updates and photos from the celebrations.
-      </div>
-      <a class="contact-card disco-border disco-5" href="https://www.instagram.com/kotlo_veedhi_ganesh_union?igsh=YnVzbnFwMTA0YzVt&igsi=YnVzbnFwMTA0YzVt" target="_blank" rel="noopener">
+      <div class="section-title">✨ <span data-en="About &amp; Follow Us" data-te="మా గురించి &amp; ఫాలో అవ్వండి">About &amp; Follow Us</span></div>
+      <div class="about" style="margin-bottom:14px;" data-en="TMC Ganesh Union is a community committee celebrating Vinayaka Chaturthi with pooja, cultural events, and prasadam for everyone in Kotla Veedhi. Follow us for updates and photos from the celebrations." data-te="TMC Ganesh Union అనేది కోట్ల వీధిలో అందరికీ పూజ, సాంస్కృతిక కార్యక్రమాలు, ప్రసాదంతో వినాయక చవితి జరుపుకునే ఒక కమ్యూనిటీ కమిటీ. వేడుకల updates మరియు ఫోటోల కోసం మమ్మల్ని ఫాలో అవ్వండి.">TMC Ganesh Union is a community committee celebrating Vinayaka Chaturthi with pooja, cultural events, and prasadam for everyone in Kotla Veedhi. Follow us for updates and photos from the celebrations.</div>
+      <a class="contact-card thick-border border-instagram" href="https://instagram.com/tmcganeshunion" target="_blank" rel="noopener">
         <span class="icon">📸</span>
-        <span><b>Instagram</b><span><b>Click Here</b></span></span>
+        <span><b>Instagram</b><span data-en="@tmcganeshunion (update handle)" data-te="@tmcganeshunion (handle మార్చండి)">@tmcganeshunion (update handle)</span></span>
       </a>
-      <a class="contact-card disco-border disco-6" href="https://chat.whatsapp.com/KvUoq3x6xTI86bAMusACWn?s=cl&p=a&ilr=4" target="_blank" rel="noopener">
+      <a class="contact-card thick-border border-whatsapp" href="https://wa.me/916301764120" target="_blank" rel="noopener">
         <span class="icon">💬</span>
-        <span><b>WhatsApp</b><span><b>Click Here</b></span></span>
+        <span><b>WhatsApp</b><span data-en="Join our community updates" data-te="మా కమ్యూనిటీ updates లో చేరండి">Join our community updates</span></span>
       </a>
-      <a class="contact-card disco-border disco-1" href="https://www.facebook.com/share/1JkiK3jMgJ/" target="_blank" rel="noopener">
+      <a class="contact-card thick-border border-facebook" href="https://facebook.com/tmcganeshunion" target="_blank" rel="noopener">
         <span class="icon">📘</span>
-        <span><b>Facebook</b><span><b>Click Here</b></span></span>
+        <span><b>Facebook</b><span data-en="TMC Ganesh Union (update page link)" data-te="TMC Ganesh Union (page link మార్చండి)">TMC Ganesh Union (update page link)</span></span>
       </a>
     </div>
 
     <div class="section" id="contact">
-      <div class="section-title">📞 Contact the Committee</div>
-      <a class="contact-card disco-border disco-3" href="https://wa.me/916301764120" target="_blank" rel="noopener">
+      <div class="section-title">📞 <span data-en="Contact the Committee" data-te="కమిటీని సంప్రదించండి">Contact the Committee</span></div>
+      <a class="contact-card thick-border border-whatsapp" href="https://wa.me/916301764120" target="_blank" rel="noopener">
         <span class="icon">💬</span>
-        <span><b>WhatsApp</b><span><b>916301764120 (Sudarshan Reddy)</b></span></span>
+        <span><b>WhatsApp</b><span>916301764120 (Sudarshan Reddy)</span></span>
       </a>
-      <a class="contact-card disco-border disco-4" href="tel:+917569880978">
+      <a class="contact-card thick-border border-call" href="tel:+917569880978">
         <span class="icon">📱</span>
-        <span><b>Call</b><span><b>+91 917569880978 (Madhusudhan Reddy)</b></span></span>
+        <span><b data-en="Call" data-te="కాల్">Call</b><span>+91 917569880978 (Madhusudhan Reddy)</span></span>
       </a>
     </div>
 
   </div>
 
   <div class="footer">
-    TMC Ganesh Union &middot; For queries, contact the committee via WhatsApp, Facebook, Instagram
+    <span data-en="TMC Ganesh Union · For queries, contact the committee via WhatsApp" data-te="TMC Ganesh Union · ప్రశ్నల కోసం, WhatsApp ద్వారా కమిటీని సంప్రదించండి">TMC Ganesh Union &middot; For queries, contact the committee via WhatsApp</span>
     <div class="credit">Website created by $urya Reddy</div>
+  </div>
+</div>
+
+<div class="qr-overlay" id="qrOverlay">
+  <div class="qr-card">
+    <button class="qr-close" onclick="document.getElementById('qrOverlay').style.display='none'">×</button>
+    <div class="qr-title" data-en="Scan &amp; Pay" data-te="స్కాన్ చేసి చెల్లించండి">Scan &amp; Pay</div>
+    <div class="qr-sub">TMC Ganesh Union</div>
+    <img id="qrImage" src="" alt="UPI QR Code" />
+    <div class="qr-amount">₹<span id="qrAmount"></span></div>
+    <div class="qr-vpa">UPI ID: 9347763218@kotakbank</div>
+    <a id="upiAppLink" class="upi-app-btn" href="#" data-en="📲 Pay via UPI App" data-te="📲 UPI యాప్‌తో చెల్లించండి">📲 Pay via UPI App</a>
+    <button class="paid-btn" id="paidBtn" data-en="✅ I've Paid" data-te="✅ నేను చెల్లించాను">✅ I've Paid</button>
+    <div class="qr-note" data-en="Scan this QR with any UPI app (PhonePe, GPay, Paytm, etc.) or tap the button above on your phone." data-te="ఈ QR ని ఏదైనా UPI యాప్‌తో (PhonePe, GPay, Paytm) స్కాన్ చేయండి, లేదా మీ ఫోన్‌లో పైన ఉన్న బటన్ నొక్కండి.">Scan this QR with any UPI app (PhonePe, GPay, Paytm, etc.) or tap the button above on your phone.</div>
   </div>
 </div>
 
 <div class="thankyou-overlay" id="thankyouOverlay">
   <div class="thankyou-card">
     <div class="om">🙏</div>
-    <h2>Thank You!</h2>
+    <h2 data-en="Thank You!" data-te="ధన్యవాదాలు!">Thank You!</h2>
     <div class="ty-org">TMC Ganesh Union</div>
     <div class="ty-details">
-      <div class="ty-row"><span>Donor</span><b id="tyName">—</b></div>
-      <div class="ty-row"><span>Amount</span><b id="tyAmount">—</b></div>
-      <div class="ty-row"><span>Year</span><b id="tyYear">—</b></div>
+      <div class="ty-row"><span data-en="Donor" data-te="దాత">Donor</span><b id="tyName">—</b></div>
+      <div class="ty-row"><span data-en="Amount" data-te="మొత్తం">Amount</span><b id="tyAmount">—</b></div>
+      <div class="ty-row"><span data-en="Mobile" data-te="మొబైల్">Mobile</span><b id="tyMobile">—</b></div>
+      <div class="ty-row"><span data-en="Year" data-te="సంవత్సరం">Year</span><b id="tyYear">—</b></div>
     </div>
-    <p id="thankyouMsg">Ganapati Bappa Morya! Your contribution has been received.</p>
-    <button class="close-btn" onclick="document.getElementById('thankyouOverlay').style.display='none'">Close</button>
+    <p id="thankyouMsg" data-en="Ganapati Bappa Morya! Your contribution has been received." data-te="గణపతి బప్ప మోరియా! మీ విరాళం అందింది.">Ganapati Bappa Morya! Your contribution has been received.</p>
+    <div class="ty-quote" data-en="&quot;Wherever there is devotion, there Ganesha removes every obstacle.&quot;" data-te="&quot;భక్తి ఎక్కడ ఉంటే, అక్కడ గణేశుడు ప్రతి అడ్డంకిని తొలగిస్తాడు.&quot;">"Wherever there is devotion, there Ganesha removes every obstacle."</div>
+    <button class="close-btn" onclick="document.getElementById('thankyouOverlay').style.display='none'" data-en="Close" data-te="మూసివేయండి">Close</button>
   </div>
 </div>
 
 <script>
   // ====== CONFIGURE BEFORE PUBLISHING ======
-  const API_BASE_URL = ""; // same origin as this page — no separate backend URL needed
-  const RAZORPAY_KEY_ID = "rzp_test_TIoAqX3hWOj4xf"; // your Razorpay publishable Key ID (safe to expose)
+  const UPI_ID = "9347763218@kotakbank"; // TMC Ganesh Union's UPI ID — update if it changes
+  const UPI_PAYEE_NAME = "TMC Ganesh Union";
   // ==========================================
 
   // ---- Hamburger menu ----
@@ -864,6 +942,29 @@
   navLinks.querySelectorAll("a").forEach((a) =>
     a.addEventListener("click", () => navLinks.classList.remove("open"))
   );
+
+  // ---- Language toggle (English / Telugu) ----
+  const langBtn = document.getElementById("langToggleBtn");
+  let currentLang = localStorage.getItem("site_lang") || "en";
+
+  function applyLang(lang) {
+    document.querySelectorAll("[data-en]").forEach((el) => {
+      const text = lang === "te" ? el.getAttribute("data-te") : el.getAttribute("data-en");
+      if (!text) return;
+      if (el.tagName === "INPUT") {
+        el.placeholder = text;
+      } else {
+        el.textContent = text;
+      }
+    });
+    langBtn.textContent = lang === "te" ? "English" : "తెలుగు";
+    document.documentElement.lang = lang;
+    localStorage.setItem("site_lang", lang);
+    currentLang = lang;
+  }
+
+  langBtn.addEventListener("click", () => applyLang(currentLang === "en" ? "te" : "en"));
+  applyLang(currentLang);
 
   // ---- Slides carousel ----
   const slideEls = document.querySelectorAll(".slide");
@@ -888,24 +989,23 @@
 
   setInterval(() => showSlide((slideIndex + 1) % slideEls.length), 4000);
 
-  // ---- Donors summary (pulls live totals from the backend) ----
-  fetch(`${API_BASE_URL}/donations-summary`)
-    .then((res) => res.json())
-    .then((data) => {
-      document.getElementById("totalCollected").textContent = data.totalCollected ?? "0";
-      document.getElementById("totalContributors").textContent = data.totalContributors ?? "0";
-    })
-    .catch(() => {
-      document.getElementById("totalCollected").textContent = "0";
-      document.getElementById("totalContributors").textContent = "0";
-    });
+  // ---- Donors summary ----
+  // Note: since payments now go directly via UPI (no gateway), totals here
+  // need to be updated manually by the committee — see server.js if you'd
+  // like to log self-reported contributions for a running total instead.
+  document.getElementById("totalCollected").textContent = "0";
+  document.getElementById("totalContributors").textContent = "0";
 
-  // ---- Donation form + Razorpay checkout ----
+  // ---- Donation form: generate a UPI QR code for the entered amount ----
   const form = document.getElementById("donationForm");
   const payBtn = document.getElementById("payBtn");
   const errorMsg = document.getElementById("errorMsg");
+  const qrOverlay = document.getElementById("qrOverlay");
+  const paidBtn = document.getElementById("paidBtn");
 
-  form.addEventListener("submit", async (e) => {
+  let pendingDonor = null;
+
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
     errorMsg.style.display = "none";
 
@@ -914,56 +1014,43 @@
     const amount = Number(document.getElementById("amount").value);
 
     if (!name || !phone || !amount || amount < 10) {
-      errorMsg.textContent = "Please fill all fields with a valid amount (minimum ₹10).";
+      errorMsg.textContent =
+        currentLang === "te"
+          ? "దయచేసి అన్ని వివరాలు సరైన మొత్తంతో నింపండి (కనీసం ₹10)."
+          : "Please fill all fields with a valid amount (minimum ₹10).";
       errorMsg.style.display = "block";
       return;
     }
 
-    payBtn.disabled = true;
-    payBtn.textContent = "Preparing payment...";
+    pendingDonor = { name, phone, amount };
 
-    try {
-      const res = await fetch(`${API_BASE_URL}/donations`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, amount }),
-      });
-      if (!res.ok) throw new Error("Could not start payment. Please try again.");
-      const data = await res.json();
+    const upiString =
+      `upi://pay?pa=${encodeURIComponent(UPI_ID)}` +
+      `&pn=${encodeURIComponent(UPI_PAYEE_NAME)}` +
+      `&am=${amount}` +
+      `&cu=INR` +
+      `&tn=${encodeURIComponent("Vinayaka Chaturthi Contribution")}`;
 
-      const options = {
-        key: RAZORPAY_KEY_ID,
-        amount: data.amount * 100,
-        currency: "INR",
-        name: "TMC Ganesh Union",
-        description: "Vinayaka Chaturthi Contribution",
-        order_id: data.razorpayOrderId,
-        prefill: { name, contact: phone },
-        theme: { color: "#A13D2B" },
-        handler: function (response) {
-          document.getElementById("tyName").textContent = name;
-          document.getElementById("tyAmount").textContent = `₹${amount}`;
-          document.getElementById("tyYear").textContent = new Date().getFullYear();
-          document.getElementById("thankyouOverlay").style.display = "flex";
-          form.reset();
-        },
-        modal: {
-          ondismiss: function () {
-            payBtn.disabled = false;
-            payBtn.textContent = "Contribute Now";
-          },
-        },
-      };
+    document.getElementById("qrImage").src =
+      `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(upiString)}`;
+    document.getElementById("qrAmount").textContent = amount;
+    document.getElementById("upiAppLink").href = upiString;
 
-      const rzp = new Razorpay(options);
-      rzp.open();
-    } catch (err) {
-      errorMsg.textContent = err.message || "Something went wrong. Please try again.";
-      errorMsg.style.display = "block";
-    } finally {
-      payBtn.disabled = false;
-      payBtn.textContent = "Contribute Now";
-    }
+    qrOverlay.style.display = "flex";
+  });
+
+  paidBtn.addEventListener("click", () => {
+    if (!pendingDonor) return;
+    qrOverlay.style.display = "none";
+
+    document.getElementById("tyName").textContent = pendingDonor.name;
+    document.getElementById("tyAmount").textContent = `₹${pendingDonor.amount}`;
+    document.getElementById("tyMobile").textContent = pendingDonor.phone;
+    document.getElementById("tyYear").textContent = new Date().getFullYear();
+    document.getElementById("thankyouOverlay").style.display = "flex";
+
+    form.reset();
+    pendingDonor = null;
   });
 </script>
 
