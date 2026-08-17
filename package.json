@@ -1,7 +1,7 @@
 {
   "name": "tmc-ganesh-union-app",
   "version": "1.0.0",
-  "description": "TMC Ganesh Union — Vinayaka Chaturthi contribution app (frontend + backend in one deployable app)",
+  "description": "TMC Ganesh Union — Vinayaka Chaturthi site with UPI QR contributions and a committee donation log",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "express": "^4.19.2",
-    "razorpay": "^2.9.4",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
