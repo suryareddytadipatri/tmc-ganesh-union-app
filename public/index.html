@@ -1119,11 +1119,17 @@
     utrInput.value = "";
     paidBtn.disabled = true;
 
+    // A unique reference per attempt — without this, apps like GPay can treat
+    // repeated same-amount test payments to the same VPA as duplicates and
+    // get stuck showing a repeating security screen.
+    const uniqueRef = `TMC${Date.now()}${Math.floor(Math.random() * 900 + 100)}`;
+
     const upiString =
       `upi://pay?pa=${encodeURIComponent(UPI_ID)}` +
       `&pn=${encodeURIComponent(UPI_PAYEE_NAME)}` +
       `&am=${amount.toFixed(2)}` +
       `&cu=INR` +
+      `&tr=${uniqueRef}` +
       `&tn=${encodeURIComponent("Vinayaka Chaturthi Contribution")}`;
 
     document.getElementById("qrAmount").textContent = amount;
@@ -1171,6 +1177,7 @@
         document.getElementById("tyMobile").textContent = pendingDonor.phone;
         document.getElementById("tyRef").textContent = pendingDonor.utr;
         document.getElementById("tyYear").textContent = new Date().getFullYear();
+        resetDownloadButton();
         document.getElementById("thankyouOverlay").style.display = "flex";
 
         form.reset();
@@ -1189,16 +1196,26 @@
       });
   });
 
-  // ---- Download the thank-you card as an image ----
-  document.getElementById("downloadCardBtn").addEventListener("click", () => {
+  // ---- Download the thank-you card as an image (allowed only once per card) ----
+  const downloadBtn = document.getElementById("downloadCardBtn");
+  downloadBtn.addEventListener("click", () => {
+    if (downloadBtn.disabled) return;
     const card = document.getElementById("tyCaptureArea");
     html2canvas(card, { backgroundColor: "#ffffff", scale: 2 }).then((canvas) => {
       const link = document.createElement("a");
       link.download = "TMC_Ganesh_Union_Thank_You.png";
       link.href = canvas.toDataURL("image/png");
       link.click();
+      downloadBtn.disabled = true;
+      downloadBtn.textContent = currentLang === "te" ? "✅ డౌన్‌లోడ్ అయ్యింది" : "✅ Downloaded";
     });
   });
+
+  // Re-enable the download button (fresh state) each time a NEW thank-you card is shown
+  function resetDownloadButton() {
+    downloadBtn.disabled = false;
+    downloadBtn.textContent = currentLang === "te" ? "⬇️ డౌన్‌లోడ్" : "⬇️ Download";
+  }
 </script>
 
 </body>
