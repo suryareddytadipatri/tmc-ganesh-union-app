@@ -1147,7 +1147,8 @@
     if (utr.length < 4) return; // safety check, button should already be disabled
 
     pendingDonor.utr = utr;
-    qrOverlay.style.display = "none";
+    paidBtn.disabled = true;
+    paidBtn.textContent = currentLang === "te" ? "సేవ్ చేస్తోంది..." : "Saving...";
 
     // Log this as a self-reported contribution, with the UPI reference number,
     // for the committee's record. Still worth cross-checking against your
@@ -1157,18 +1158,35 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(pendingDonor),
     })
-      .then(() => refreshDonorsSummary())
-      .catch((err) => console.error("Could not log donation:", err));
+      .then((res) => {
+        if (!res.ok) throw new Error("save-failed");
+        return res.json();
+      })
+      .then(() => {
+        qrOverlay.style.display = "none";
+        refreshDonorsSummary();
 
-    document.getElementById("tyName").textContent = pendingDonor.name;
-    document.getElementById("tyAmount").textContent = `₹${pendingDonor.amount}`;
-    document.getElementById("tyMobile").textContent = pendingDonor.phone;
-    document.getElementById("tyRef").textContent = pendingDonor.utr;
-    document.getElementById("tyYear").textContent = new Date().getFullYear();
-    document.getElementById("thankyouOverlay").style.display = "flex";
+        document.getElementById("tyName").textContent = pendingDonor.name;
+        document.getElementById("tyAmount").textContent = `₹${pendingDonor.amount}`;
+        document.getElementById("tyMobile").textContent = pendingDonor.phone;
+        document.getElementById("tyRef").textContent = pendingDonor.utr;
+        document.getElementById("tyYear").textContent = new Date().getFullYear();
+        document.getElementById("thankyouOverlay").style.display = "flex";
 
-    form.reset();
-    pendingDonor = null;
+        form.reset();
+        pendingDonor = null;
+      })
+      .catch(() => {
+        alert(
+          currentLang === "te"
+            ? "రికార్డ్ సేవ్ కాలేదు — ఇంటర్నెట్ చెక్ చేసి, మళ్ళీ ప్రయత్నించండి."
+            : "Could not save your record — check your internet connection and try again."
+        );
+      })
+      .finally(() => {
+        paidBtn.disabled = false;
+        paidBtn.textContent = currentLang === "te" ? "✅ సమర్పించి Thank-You Card పొందండి" : "✅ Submit & Get Thank-You Card";
+      });
   });
 
   // ---- Download the thank-you card as an image ----
